@@ -1,0 +1,37 @@
+        BufferedReader bufferedReader = null;
+        BufferedWriter bufferedWriter = null;
+        try {
+            String target = "D:/diarys.txt";
+            bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(target), "GB2312"));
+            String temp = bufferedReader.readLine();
+            Pattern pattern = Pattern.compile("^[a-z][0-9]-[0-9]+.[0-9]+$");
+            File parent = new File("D:/diarys");
+            if (!parent.exists()) {
+                parent.mkdir();
+            }
+            while (temp != null) {
+                if (pattern.matcher(temp).matches()) {
+                    File file = new File(parent, temp + ".txt");
+                    file.createNewFile();
+                    bufferedWriter = new BufferedWriter(new FileWriter(file));
+                } else {
+                    if (bufferedWriter == null) {
+                        throw new RuntimeException("文档内容起始格式不正确!");
+                    } else {
+                        bufferedWriter.write(temp);
+                        bufferedWriter.flush();
+                        bufferedWriter.newLine();
+                    }
+                }
+                temp = bufferedReader.readLine();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (bufferedReader != null) {
+                bufferedReader.close();
+            }
+            if (bufferedWriter != null) {
+                bufferedWriter.close();
+            }
+        }
