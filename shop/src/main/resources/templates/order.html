@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+    <title>订单管理</title>
+
+    <link th:href="@{/AmazeUI-2.4.2/assets/css/admin.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/AmazeUI-2.4.2/assets/css/amazeui.css}" rel="stylesheet" type="text/css">
+
+    <link th:href="@{/css/personal.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/orstyle.css}" rel="stylesheet" type="text/css">
+
+    <script th:src="@{/AmazeUI-2.4.2/assets/js/jquery.min.js}"></script>
+    <script th:src="@{/AmazeUI-2.4.2/assets/js/amazeui.js}"></script>
+
+</head>
+
+<body>
+<!--头 -->
+<header>
+    <article>
+        <div class="mt-logo">
+            <!--顶部导航条 -->
+            <div class="am-container header">
+                <ul class="message-l">
+                    <div class="topMessage">
+                        <div class="menu-hd" th:if="${session.user == null}">
+                            <a th:href="@{/login}" target="_top">亲，请登录</a>
+                            &nbsp;
+                            <a th:href="@{/user/register}" target="_top">免费注册</a>
+                        </div>
+                        <div class="menu-hd" th:if="${session.user != null}">
+                            <a th:href="@{/index}">网站首页</a>
+                        </div>
+                        <a style="position:absolute;left:1300px;top: 0;" th:href="@{/logout}">退出</a>
+                    </div>
+                </ul>
+            </div>
+
+            <!--悬浮搜索框-->
+
+            <div class="nav white">
+                <div class="search-bar pr">
+                    <a name="index_none_header_sysc" href="#"></a>
+                    <form th:action="@{/book/search}" method="post">
+                        <input id="searchInput" name="bookName" type="text" placeholder="搜索" autocomplete="off">
+                        <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+                    </form>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+        </div>
+    </article>
+</header>
+<div class="nav-table">
+    <div class="long-title"><span class="all-goods">全部分类</span></div>
+</div>
+<b class="line"></b>
+<div class="center">
+    <div class="col-main">
+        <div class="main-wrap">
+
+            <div class="user-order">
+
+                <!--标题 -->
+                <div class="am-cf am-padding">
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">订单管理</strong> /
+                        <small>Order</small>
+                    </div>
+                </div>
+                <hr/>
+
+                <div class="am-tabs am-tabs-d2 am-margin" data-am-tabs>
+
+                    <ul class="am-avg-sm-5 am-tabs-nav am-nav am-nav-tabs">
+                        <li th:class="${flag == 3 ? 'am-active' : ''}" class="am-active"><a href="javascript:;" onclick="seeOrder('3')">所有订单</a></li>
+                        <li th:class="${flag == 1 ? 'am-active' : ''}"><a href="javascript:;" onclick="seeOrder('1')">待收货</a></li>
+                        <li th:class="${flag == 2 ? 'am-active' : ''}"><a href="javascript:;" onclick="seeOrder('2')">已完成</a></li>
+                    </ul>
+
+                    <div class="am-tabs-bd">
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                            <div class="order-top">
+                                <div class="th th-item">
+                                    <td class="td-inner">商品</td>
+                                </div>
+                                <div class="th th-price">
+                                    <td class="td-inner">单价</td>
+                                </div>
+                                <div class="th th-number">
+                                    <td class="td-inner">数量</td>
+                                </div>
+                                <div class="th th-operation">
+                                    <td class="td-inner"></td>
+                                </div>
+                                <div class="th th-amount">
+                                    <td class="td-inner">合计</td>
+                                </div>
+                                <div class="th th-status">
+                                    <td class="td-inner">交易状态</td>
+                                </div>
+                                <div class="th th-change">
+                                    <td class="td-inner">交易操作</td>
+                                </div>
+                            </div>
+
+                            <div class="order-main">
+                                <div class="order-list">
+
+                                    <!--交易成功-->
+                                    <div class="order-status5"  th:each="o : ${orders}" th:object="${#strings.arraySplit(o.key, '#')}">
+                                        <div class="order-title">
+                                            <div class="dd-num">订单编号：<a href="javascript:;" th:text="*{[1]}"></a></div>
+                                            <span th:text="*{[4] == '1' ? '创建时间 : ' + [2] : '完成时间 : ' + [3]}"></span>
+                                        </div>
+                                        <div class="order-content">
+                                            <div class="order-left">
+                                                <ul class="item-list" th:each="v : ${o.value}">
+                                                    <li class="td td-item">
+                                                        <div class="item-pic">
+                                                            <a href="javascript:;" class="J_MakePoint">
+                                                                <img th:src="@{/images/{imgId}(imgId=${v.image})}"
+                                                                     class="itempic J_ItemImg">
+                                                            </a>
+                                                        </div>
+                                                        <div class="item-info">
+                                                            <div class="item-basic-info">
+                                                                <a href="#">
+                                                                    <p th:text="${v.name}"></p>
+                                                                    <p class="info-little" th:text="${'作者 : ' + v.author}"></p>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="td td-price">
+                                                        <div class="item-price" th:text="${v.single_money}">
+
+                                                        </div>
+                                                    </li>
+                                                    <li class="td td-number">
+                                                        <div class="item-number">
+                                                            <span>×</span><span th:text="${v.quantity}"></span>
+                                                        </div>
+                                                    </li>
+                                                    <li class="td td-operation">
+                                                        <div class="item-operation">
+
+                                                        </div>
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                            <div class="order-right">
+                                                <li class="td td-amount">
+                                                    <div class="item-amount" th:text="*{'总金额 : ' + [5]}">
+
+                                                    </div>
+                                                </li>
+                                                <div class="move-right">
+                                                    <li class="td td-status">
+                                                        <div class="item-status">
+                                                            <p class="Mystatus" th:text="*{[4] == '1' ? '待收货' : '交易成功'}"></p>
+                                                        </div>
+                                                    </li>
+                                                    <li class="td td-change">
+                                                        <div class="am-btn am-btn-danger anniu" th:onclick="*{[4] == '1' ? 'sureReceive('+[0]+')' : 'delOrder('+[0]+')'}" th:text="*{[4] == '1' ? '确认收货' : '删除订单'}">
+                                                        </div>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--底部-->
+        <!--底部-->
+        <div class="footer ">
+            <div class="footer-hd ">
+                <p>
+                    <a href="# ">商城首页</a>
+                    <b>|</b>
+                    <a href="https://www.alipay.com" target="_blank">支付宝</a>
+                </p>
+            </div>
+            <div class="footer-bd ">
+                <p>
+                    <a href="javascript:;">合作伙伴</a>
+                    <a href="javascript:;">联系我们</a>
+                    <a href="javascript:;">网站地图</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <aside class="menu">
+        <ul>
+            <li class="person active">
+                <a href="javascript:;">个人中心</a>
+            </li>
+            <li class="person">
+                <a href="javascript:;">个人资料</a>
+                <ul>
+                    <li><a th:href="@{/user/{userId}(userId=${session.user.id})}">个人信息</a></li>
+                    <li><a th:href="@{/password}">安全设置</a></li>
+                </ul>
+            </li>
+            <li class="person">
+                <a href="javascript:;">我的交易</a>
+                <ul>
+                    <li><a th:href="@{/order/{userId}/3(userId=${session.user.id})}">订单管理</a></li>
+                </ul>
+            </li>
+            <li class="person">
+                <span>&nbsp;</span>
+                <ul>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </li>
+
+            <li class="person">
+                <span>&nbsp;</span>
+                <ul>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </li>
+
+            <li class="person">
+                <span>&nbsp;</span>
+                <ul>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+            </li>
+
+            <li class="person">
+                <span>&nbsp;</span>
+                <ul>
+                    <li>&nbsp;</li>
+                </ul>
+            </li>
+
+        </ul>
+
+    </aside>
+</div>
+
+</body>
+<script th:inline="javascript">
+    var userId = [[${session.user.id}]];
+    function seeOrder(id) {
+        location.href = "/order/" + userId + "/" + id;
+    }
+</script>
+<script>
+    function sureReceive(orderId) {
+        var form = $("<form></form>").attr("action", "/order/sure").attr("method", "POST")
+            .append($("<input/>").attr("name", "orderId").attr("type", "hidden").attr("value", orderId));
+        $(document.body).append(form);
+        form.submit();
+    }
+</script>
+<script>
+    function delOrder(orderId) {
+        var form = $("<form></form>").attr("action", "/order").attr("method", "POST")
+            .append($("<input/>").attr("name", "_method").attr("type", "hidden").attr("value", "DELETE"))
+            .append($("<input/>").attr("name", "orderId").attr("type", "hidden").attr("value", orderId));
+        $(document.body).append(form);
+        form.submit();
+    }
+</script>
+</html>

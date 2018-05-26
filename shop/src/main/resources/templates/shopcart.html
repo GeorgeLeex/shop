@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>购物车页面</title>
+
+    <link th:href="@{/AmazeUI-2.4.2/assets/css/amazeui.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/basic/css/demo.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/cartstyle.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/optstyle.css}" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+
+</head>
+
+<body>
+
+<!--顶部导航条 -->
+<div class="am-container header">
+    <ul class="message-l">
+        <div class="topMessage">
+            <div class="menu-hd" th:if="${session.user == null}">
+                <a th:href="@{/login}" target="_top">亲，请登录</a>
+                &nbsp;
+                <a th:href="@{/user/register}" target="_top">免费注册</a>
+            </div>
+            <div class="menu-hd" th:if="${session.user != null}">
+                <a th:href="@{/index}">网站首页</a>
+            </div>
+            <a style="position:absolute;left:1300px;top: 0;" th:href="@{/logout}">退出</a>
+        </div>
+    </ul>
+</div>
+
+<!--悬浮搜索框-->
+
+<div class="nav white">
+    <div class="search-bar pr">
+        <a name="index_none_header_sysc" href="#"></a>
+        <form th:action="@{/book/search}" method="post">
+            <input id="searchInput" name="bookName" type="text" placeholder="搜索" autocomplete="off">
+            <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+        </form>
+    </div>
+</div>
+
+<div class="clear"></div>
+
+<!--购物车 -->
+<div class="concent">
+    <div id="cartTable">
+        <div class="cart-table-th">
+            <div class="wp">
+                <div class="th th-chk">
+                    <div id="J_SelectAll1" class="select-all J_SelectAll">
+
+                    </div>
+                </div>
+                <div class="th th-item">
+                    <div class="td-inner">商品信息</div>
+                </div>
+                <div class="th th-price">
+                    <div class="td-inner">单价</div>
+                </div>
+                <div class="th th-amount">
+                    <div class="td-inner">数量</div>
+                </div>
+                <div class="th th-sum">
+                    <div class="td-inner">金额</div>
+                </div>
+                <div class="th th-op">
+                    <div class="td-inner">操作</div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <tr class="item-list">
+            <div class="bundle  bundle-last ">
+                <div class="clear"></div>
+                <div class="bundle-main">
+                    <ul class="item-content clearfix" th:id="${'itemul'+cart.id}" th:each="cart,iterStat : ${carts}">
+                        <li class="td td-chk">
+                            <div class="cart-checkbox ">
+                                <input class="check" th:onclick="${'selectItem('+cart.id+')'}" th:id="${'check' + cart.id}" name="items[]" th:value="${cart.id}"
+                                       type="checkbox">
+                                <label></label>
+                            </div>
+                        </li>
+                        <li class="td td-item">
+                            <div class="item-pic">
+                                <a th:href="@{/book/{bookId}(bookId=${cart.bookId})}" target="_blank"
+                                   class="J_MakePoint" data-point="tbcart.8.12">
+                                    <img height="80px" width="80px" th:src="@{/images/{img}(img=${cart.image})}" class="itempic J_ItemImg"></a>
+                            </div>
+                            <div class="item-info">
+                                <div class="item-basic-info">
+                                    <a href="javascript:;" target="_blank" th:title="${cart.name}"
+                                       class="item-title J_MakePoint" data-point="tbcart.8.11" th:text="${cart.name}"></a>
+                                    <br>
+                                    <span th:text="${cart.author}"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="td td-info">
+                            <div style="margin-top: 22px;">
+                                <span  class="sku-line" th:text="${'图书类别 : ' + cart.typeName}"></span>
+                            </div>
+                        </li>
+                        <li class="td td-price">
+                            <div class="item-price price-promo-promo">
+                                <div class="price-content">
+                                    <div class="price-line">
+                                        <em class="J_Price price-now" th:id="${'singlemoney' + cart.id}" tabindex="0" th:text="${cart.price}"></em>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="td td-amount">
+                            <div class="amount-wrapper ">
+                                <div class="item-amount ">
+                                    <div class="sl">
+                                        <input class="min am-btn" name="" th:onclick="${'minQuantity('+cart.id+')'}" type="button" value="-"/>
+                                        <input class="text_box" readonly name="" th:id="${'quantity' + cart.id}" type="text" th:value="${cart.quantity}" style="width:30px;"/>
+                                        <input class="add am-btn" name="" th:onclick="${'addQuantity('+cart.id+')'}" type="button" value="+"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="td td-sum">
+                            <div class="td-inner">
+                                <em tabindex="0" th:id="${'total' + cart.id}" class="J_ItemSum number" th:text="${cart.price * cart.quantity}"></em>
+                            </div>
+                        </li>
+                        <li class="td td-op">
+                            <div class="td-inner">
+                                <a href="javascript:;" th:onclick="'deleteItem('+${cart.id}+')'" data-point-url="#" class="delete">
+                                    删除</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </tr>
+        <div class="clear"></div>
+
+    </div>
+    <div class="clear"></div>
+
+    <div class="float-bar-wrapper">
+        <div id="J_SelectAll2" class="select-all J_SelectAll">
+            <div class="cart-checkbox">
+                <input class="check-all" id="J_SelectAllCbx2" name="select-all" type="checkbox">
+                <label for="J_SelectAllCbx2"></label>
+            </div>
+            <span>全选</span>
+        </div>
+        <div class="operations">
+            <a href="javascript:;" onclick="deleteAll()" hidefocus="true" class="deleteAll">删除</a>
+        </div>
+        <div class="float-bar-right">
+            <div class="amount-sum">
+                <span class="txt">已选商品</span>
+                <em id="J_SelectedItemsCount">0</em><span class="txt">件</span>
+                <div class="arrow-box">
+                    <span class="selected-items-arrow"></span>
+                    <span class="arrow"></span>
+                </div>
+            </div>
+            <div class="price-sum">
+                <span class="txt">合计:</span>
+                <strong class="price">¥<em id="J_Total">0.00</em></strong>
+            </div>
+            <div class="btn-area">
+                <a href="javascript:;" onclick="pay()" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
+                    <span>结&nbsp;算</span></a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer ">
+        <div class="footer-hd ">
+            <p>
+                <a href="# ">商城首页</a>
+                <b>|</b>
+                <a href="https://www.alipay.com" target="_blank">支付宝</a>
+            </p>
+        </div>
+        <div class="footer-bd ">
+            <p>
+                <a href="javascript:;">合作伙伴</a>
+                <a href="javascript:;">联系我们</a>
+                <a href="javascript:;">网站地图</a>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<!--操作页面-->
+
+<div class="theme-popover-mask"></div>
+
+<div class="theme-popover">
+    <div class="theme-span"></div>
+    <div class="theme-poptit h-title">
+        <a href="javascript:;" title="关闭" class="close">×</a>
+    </div>
+    <div class="theme-popbod dform">
+        <form class="theme-signin" name="loginform" action="" method="post">
+
+            <div class="theme-signin-left">
+
+                <li class="theme-options">
+                    <div class="cart-title">颜色：</div>
+                    <ul>
+                        <li class="sku-line selected">12#川南玛瑙<i></i></li>
+                        <li class="sku-line">10#蜜橘色+17#樱花粉<i></i></li>
+                    </ul>
+                </li>
+                <li class="theme-options">
+                    <div class="cart-title">包装：</div>
+                    <ul>
+                        <li class="sku-line selected">包装：裸装<i></i></li>
+                        <li class="sku-line">两支手袋装（送彩带）<i></i></li>
+                    </ul>
+                </li>
+                <div class="theme-options">
+                    <div class="cart-title number">数量</div>
+                    <dd>
+                        <input class="min am-btn am-btn-default" name="" type="button" value="-"/>
+                        <input class="text_box" name="" type="text" value="1" style="width:30px;"/>
+                        <input class="add am-btn am-btn-default" name="" type="button" value="+"/>
+                        <span class="tb-hidden">库存<span class="stock">1000</span>件</span>
+                    </dd>
+
+                </div>
+                <div class="clear"></div>
+                <div class="btn-op">
+                    <div class="btn am-btn am-btn-warning">确认</div>
+                    <div class="btn close am-btn am-btn-warning">取消</div>
+                </div>
+
+            </div>
+            <div class="theme-signin-right">
+                <div class="img-info">
+                    <img th:src="@{/images/kouhong.jpg_80x80.jpg}"/>
+                </div>
+                <div class="text-info">
+                    <span class="J_Price price-now">¥39.00</span>
+                    <span id="Stock" class="tb-hidden">库存<span class="stock">1000</span>件</span>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!--引导 -->
+<div class="navCir">
+    <li><a href="home.html"><i class="am-icon-home "></i>首页</a></li>
+    <li><a href="sort.html"><i class="am-icon-list"></i>分类</a></li>
+    <li class="active"><a href="shopcart.html"><i class="am-icon-shopping-basket"></i>购物车</a></li>
+    <li><a th:href="@{/person/index.html}"><i class="am-icon-user"></i>我的</a></li>
+</div>
+</body>
+<script>
+    function strToIntWith2Scala(val1, val2, operation) {
+        if (operation == '+') {
+            var val = ((parseFloat(val1) * 100 + parseFloat(val2) * 100) / 100).toString();
+        } else if (operation == "-") {
+            var num = (parseFloat(val1) * 100 - parseFloat(val2) * 100) / 100;
+            if (num < 0) {
+                num = 0;
+            }
+            var val = num.toString();
+        }
+
+        var index = val.indexOf(".");
+        if ((val.length - index) > 2) {
+            val = val.substring(0, index + 1 + 2);
+        } else if ((val.length - index) == 2) {
+            val = val + '0';
+        }
+        return val;
+    }
+</script>
+<script>
+    $(function(){
+        $(".check").removeAttr("checked");
+        $("#J_SelectAllCbx2").removeAttr("checked");
+    });
+</script>
+<script>
+    function pay() {
+        var checks = $(".check:checked");
+        var ids = new Array();
+        var quantities = new Array();
+        for (var i = 0; i < checks.length; i++) {
+            ids[i] = checks[i].value;
+            quantities[i] = $("#quantity" + checks[i].value).val();
+        };
+        if (ids.length > 0) {
+            $.ajax({
+                type: "POST",
+                url : "/order/save",
+                data : {ids : ids.toString(), quantities : quantities.toString()},
+                success : function (data) {
+                    if (data.responseCode == 'OK') {
+                        location.href = "/order/index";
+                    }
+                },
+                error : function () {
+                    alert("网络异常!");
+                }
+            });
+        } else {
+            alert("请至少选择一件商品后再结算!");
+        }
+    }
+</script>
+<script>
+    function deleteAll() {
+        var checks = $(".check:checked");
+        var ids = new Array();
+        for (var i = 0; i < checks.length; i++) {
+            ids[i] = checks[i].value;
+        };
+
+        if (ids.length > 0) {
+            $.ajax({
+                type : "DELETE",
+                url : "/cart/batchdelete",
+                data : {ids : ids.toString()},
+                success : function (data) {
+                    if (data.responseCode == 'OK') {
+                        for (var i = 0; i < ids.length; i++) {
+                            $("#itemul" + ids[i]).remove();
+                        }
+                    }
+                },
+                error : function () {
+                    alert("网络异常!");
+                }
+            });
+        }
+
+
+    }
+</script>
+<script>
+    $("#J_SelectAllCbx2").click(function () {
+        var totalNum = 0;
+        var sum = 0;
+        if ($("#J_SelectAllCbx2").attr('checked') == 'checked') {
+            $(".check").attr('checked','checked');
+
+            $.each($("input[id*='quantity']"), function(i, item) {
+                totalNum = totalNum + $(this).val() * 1;
+            });
+            $("em[id*='total']").each(function(i, item) {
+                sum = strToIntWith2Scala(sum, $(this).text(), '+');
+            });
+        } else {
+            $(".check").removeAttr("checked");
+        }
+        $("#J_SelectedItemsCount").text(totalNum);
+        $("#J_Total").text(sum);
+        //$(".check").attr('checked',$("#J_SelectAllCbx2").attr('checked') == 'checked' ? 'checked' : '');
+    });
+</script>
+<script>
+    function deleteItem(id) {
+        $.ajax({
+            type : "DELETE",
+            url : "/cart/" + id,
+            success : function (data) {
+                if (data.responseCode == 'OK') {
+                    $("#itemul" + id).remove();
+                }
+            },
+            error : function () {
+                alert("网络异常!");
+            }
+        });
+
+    }
+</script>
+
+<script>
+    function selectItem(id) {
+        var obj = $("#J_SelectedItemsCount");
+        var num = parseInt(obj.text());
+        var j_total = $("#J_Total");
+        var money = j_total.text()
+        var quantity = $("#quantity" + id).val()
+        if ($("#check" + id).attr("checked")) {
+            obj.text(num + quantity * 1);
+            j_total.text(strToIntWith2Scala(money, $("#total" + id).text(), '+'));
+        } else {
+            obj.text(num - quantity * 1);
+            j_total.text(strToIntWith2Scala(money, $("#total" + id).text(), '-'));
+        }
+    }
+</script>
+<script>
+    function minQuantity(id) {
+        var singlemoney = $("#singlemoney" + id).text();
+        var nowQuantity = $("#quantity" + id).val();
+        if (nowQuantity - 1 < 1) {
+            return false;
+        }
+        $("#quantity" + id).val(parseInt(nowQuantity) - 1);
+        var total = (singlemoney * (parseInt(nowQuantity) - 1)).toFixed(2);
+        $("#total" + id).text(total);
+        if ($("#check" + id).attr("checked")) {
+            var obj = $("#J_SelectedItemsCount");
+            var num = parseInt(obj.text()) - 1;
+            if (num >= 0 ) {
+                obj.text(num);
+            }
+            var j_total = $("#J_Total");
+            var money = j_total.text();
+            if (parseFloat(money) - parseFloat(singlemoney) >= 0) {
+                j_total.text(strToIntWith2Scala(money, singlemoney, '-'));
+            }
+        }
+    }
+
+    function addQuantity(id) {
+        var singlemoney = $("#singlemoney" + id).text();
+        var nowQuantity = $("#quantity" + id).val();
+        $("#quantity" + id).val(parseInt(nowQuantity) + 1);
+        $("#total" + id).text((singlemoney * (parseInt(nowQuantity) + 1)).toFixed(2));
+        if ($("#check" + id).attr("checked")) {
+            var obj = $("#J_SelectedItemsCount");
+            var num = parseInt(obj.text()) + 1;
+            obj.text(num);
+            var j_total = $("#J_Total");
+            var money = j_total.text();
+            j_total.text(strToIntWith2Scala(money, singlemoney, '+'));
+        }
+    }
+</script>
+</html>

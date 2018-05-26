@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>付款成功页面</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/AmazeUI-2.4.2/assets/css/amazeui.css}"/>
+    <link th:href="@{/AmazeUI-2.4.2/assets/css/admin.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/basic/css/demo.css}" rel="stylesheet" type="text/css"/>
+
+    <link th:href="@{/css/sustyle.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" th:src="@{/basic/js/jquery-1.7.min.js}"></script>
+
+</head>
+
+<body>
+
+<!--顶部导航条 -->
+<div class="am-container header">
+    <ul class="message-l">
+        <div class="topMessage">
+            <div class="menu-hd" th:if="${session.user == null}">
+                <a th:href="@{/login}" target="_top">亲，请登录</a>
+                &nbsp;
+                <a th:href="@{/user/register}" target="_top">免费注册</a>
+            </div>
+            <div class="menu-hd" th:if="${session.user != null}">
+                <a th:href="@{/index}">网站首页</a>
+            </div>
+            <a style="position:absolute;left:1300px;top: 0;" th:href="@{/logout}">退出</a>
+        </div>
+    </ul>
+</div>
+
+<!--悬浮搜索框-->
+
+<div class="nav white">
+    <div class="search-bar pr">
+        <a name="index_none_header_sysc" href="#"></a>
+        <form th:action="@{/book/search}" method="post">
+            <input id="searchInput" name="bookName" type="text" placeholder="搜索" autocomplete="off">
+            <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+        </form>
+    </div>
+</div>
+
+<div class="clear"></div>
+
+
+<div class="take-delivery" th:style="${flag == '0'?'background: url(../images/close1.png) no-repeat scroll 10px 30px transparent;padding: 27px 0 27px 60px;color: #333;
+width:100% ;max-width:1000px;margin:0px auto;margin-top: 50px;':''}">
+    <div class="status" th:if="${flag == '0'}">支付失敗!</div>
+    <div class="status" th:if="${flag == '1'}">
+        <h2>您已成功付款</h2>
+        <div class="successInfo">
+            <ul>
+                <li>付款金额<em th:text="${'¥' + payAmount}"></em></li>
+                <li>订单编号 <span th:text="${tradeNo}"></span></li>
+            </ul>
+            <div class="option">
+                <span class="info">您可以</span>
+                <a th:href="@{/person/order.html}" class="J_MakePoint">查看<span>已买到的宝贝</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer ">
+    <div class="footer-hd ">
+        <p>
+            <a href="# ">商城首页</a>
+            <b>|</b>
+            <a href="https://www.alipay.com" target="_blank">支付宝</a>
+        </p>
+    </div>
+    <div class="footer-bd ">
+        <p>
+            <a href="javascript:;">合作伙伴</a>
+            <a href="javascript:;">联系我们</a>
+            <a href="javascript:;">网站地图</a>
+        </p>
+    </div>
+</div>
+
+
+</body>
+</html>

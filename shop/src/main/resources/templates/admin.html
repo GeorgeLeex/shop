@@ -1,0 +1,453 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dream</title>
+    <!-- Bootstrap Styles-->
+    <link th:href="@{/assets/css/bootstrap.css}" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link th:href="@{/assets/css/font-awesome.css}" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link th:href="@{/assets/js/morris/morris-0.4.3.min.css}" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link th:href="@{/assets/css/custom-styles.css}" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link th:href='@{https://fonts.googleapis.com/css?family=Open+Sans}' rel='stylesheet' type='text/css' />
+
+    <link th:href="@{/assets/js/dataTables/dataTables.bootstrap.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="javascript:;">SHOP</a>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="javascript:;" th:text="${session.admin != null ? session.admin.name : ''}"><i class="fa fa-anchor"></i></a></li>
+                        <li><a th:href="@{/user/admin/logout}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                </ul>
+
+            </div>
+
+        </nav>
+
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                            <small>图书列表</small>
+                        </h1>
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Advanced Tables -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <form th:action="@{/book/condition}" method="post" class="form-inline" style="padding: 0 20px;">
+                                        <div class="form-group">
+                                            <label>书名</label>
+                                            <input name="bookName" class="form-control" th:value="${condition != null ? condition.bookName : ''}">
+                                        </div>
+                                        &nbsp;
+                                        <div class="form-group">
+                                            <label>作者</label>
+                                            <input name="bookAuthor" class="form-control" th:value="${condition != null ? condition.bookAuthor : ''}">
+                                        </div>
+                                        &nbsp;
+                                        <div class="form-group">
+                                            <label>价格</label>
+                                            <input name="beginPrice" type="number" min="0" step="0.01" class="form-control-sm" th:value="${condition != null ? condition.beginPrice : ''}">
+                                            &nbsp;-&nbsp;
+                                            <input name="endPrice" type="number" min="0" step="0.01" class="form-control-sm" th:value="${condition != null ? condition.endPrice : ''}">
+                                        </div>
+                                        &nbsp;
+                                        <div class="form-group">
+                                            <label>类别</label>
+                                            <select name="type" class="form-control" id="types">
+                                                <option value="">--图书类别--</option>
+                                                <option th:each="type : ${session.bookTypes}" th:value="${type.value}" th:text="${type.label}"></option>
+                                            </select>
+                                        </div>
+                                        &nbsp;
+                                        <button type="submit" class="btn btn-primary">搜索</button>
+                                    </form>
+                                </div>
+                                <div class="row">
+                                    <div style="padding: 0 20px;padding-top: 12px;">
+                                        <button onclick="showInsertModal()" class="btn btn-sm btn-info">添加图书</button>
+                                        <button onclick="batchDelete()" class="btn btn-sm btn-danger" style="margin-left: 10px;">批量删除</button>
+                                        <button onclick="setToRecom()" class="btn btn-sm btn-info" style="margin-left: 10px;">设为推荐书籍</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                        <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="all"/></th>
+                                            <th>图书名</th>
+                                            <th>图片</th>
+                                            <th>作者</th>
+                                            <th>价格</th>
+                                            <th>库存</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="b : ${books != null ? books : null}">
+                                            <td class="col-sm-1"><input type="checkbox" class="sel" th:value="${b.id}"></td>
+                                            <td th:text="${b.name}"></td>
+                                            <td class="col-md-1"><img width="50px;" height="50px;" th:src="@{/images/{imgId}(imgId=${b.image})}"></td>
+                                            <td th:text="${b.author}"></td>
+                                            <td th:text="${b.price}"></td>
+                                            <td th:text="${b.inventory}"></td>
+                                            <td class="col-md-2">
+                                                <button class="btn btn-sm btn-default" th:onclick="${'showModal('+b.id+')'}">编辑</button>
+                                                <button class="btn btn-sm btn-danger" th:onclick="${'delBook('+b.id+')'}">删除</button>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End Advanced Tables -->
+                    </div>
+                </div>
+
+                <!-- /. ROW  -->
+            </div>
+        </div>
+
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="modal-form" class="form-horizontal" th:action="@{/book/edit}" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改书籍</h4>
+                </div>
+                <div class="modal-body">
+
+                        <!--<input type="hidden" name="_method" value="PUT">-->
+                        <input type="hidden" name="id" id="bookId">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图书名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">作者</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="author" name="author">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">出版社</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="pressId" name="pressId">
+                                    <option value="">--出版社--</option>
+                                    <option th:each="p : ${session.press}" th:value="${p.value}" th:text="${p.label}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">出版时间</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="publishTime" name="publishTime">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">价格</label>
+                            <div class="col-sm-10">
+                                <input type="number" step="0.01" class="form-control" id="price" name="price">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图书类别</label>
+                            <div class="col-sm-10">
+                                <select type="text" class="form-control" id="type" name="type">
+                                    <option value="">--图书类别--</option>
+                                    <option th:each="type : ${session.bookTypes}" th:value="${type.value}" th:text="${type.label}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">字数</label>
+                            <div class="col-sm-10">
+                                <input type="number" min="0" class="form-control" id="wordNum" name="wordNum">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">页数</label>
+                            <div class="col-sm-10">
+                                <input type="number" min="0" class="form-control" id="pageNum" name="pageNum">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图片</label>
+                            <div class="col-sm-10">
+                                <!--<input type="text" class="form-control" style="display: inline-block;width: 40%">-->
+                                <input type="file" class="form-control" id="image" name="image" style="display: inline-block;width: 40%">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">库存</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="inventory" name="inventory">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">描述</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="description" name="description">
+
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="msgModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>操作提示</h3>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
+    <!-- Bootstrap Js -->
+    <script th:src="@{/assets/js/bootstrap.min.js}"></script>
+    <!-- Metis Menu Js -->
+    <script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
+    <!-- Custom Js -->
+    <script th:src="@{/assets/js/custom-scripts.js}"></script>
+    <script th:src="@{/assets/js/dataTables/jquery.dataTables.js}"></script>
+    <script th:src="@{/assets/js/dataTables/dataTables.bootstrap.js}"></script>
+    <script>
+        function batchDelete() {
+            var ids = new Array();
+            $(".sel:checked").each(function (i, item) {
+                ids[i] = $(item).val();
+            });
+            var idStr = ids.join(",");
+            var ajaxBody = {
+                url : "/book/manage/batch",
+                type : "POST",
+                data : {id : idStr, _method : "DELETE"},
+                success : function (json) {
+                    var msgContent = $($("#msgModal").find(".modal-body")[0]);
+                    if (json.responseCode == 'OK') {
+                        var form = $("<form></form>").attr("action", "/book/condition").attr("method", "POST")
+                                    .append($("<input/>").attr("name", "condition").attr("value", ""));
+                        $(document.body).append(form);
+                        form.submit();
+                    } else {
+                        msgContent.text("批量删除失败!");
+                        $("#msgModal").modal('show');
+                    }
+
+                },
+                error : function () {
+                    alert("网络异常!");
+                }
+            };
+            $.ajax(ajaxBody);
+        }
+    </script>
+    <script>
+        function delBook(bookId) {
+            var form = $("<form></form>").attr("action", "/book/manage").attr("method", "POST")
+                .append($("<input/>").attr("name", "_method").attr("type", "hidden").attr("value", "DELETE"))
+                .append($("<input/>").attr("name", "bookId").attr("value", bookId));
+            $(document.body).append(form);
+            form.submit();
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url : "/menus",
+                success : function (json) {
+                    $.each(json.data, function (i, item) {
+                        $("<li></li>").append($("<a></a>").attr('href', item.uri).append($("<i></i>").attr('class', item.className)).append(item.name)).appendTo("#main-menu");
+                    })
+                }
+            });
+            $('#dataTables-example').dataTable({
+                "lengthMenu" : [5, 10, 15, 20, 30, 50]
+            });
+        });
+    </script>
+    <script th:inline="javascript">
+        var type = [[${condition != null ? condition.type : null}]];
+        $(function () {
+            var options = $("select[name='type']")[0].options;
+            $.each(options, function (i, item) {
+                if ($(this).val() == type) {
+                    $(this).attr('selected', 'selected');
+                }
+            });
+        });
+    </script>
+    <script>
+        function showModal(bookId) {
+
+            Date.prototype.format = function(fmt) {
+                var o = {
+                    "M+" : this.getMonth()+1,                 //月份
+                    "d+" : this.getDate(),                    //日
+                    "h+" : this.getHours(),                   //小时
+                    "m+" : this.getMinutes(),                 //分
+                    "s+" : this.getSeconds(),                 //秒
+                    "q+" : Math.floor((this.getMonth()+3)/3), //季度
+                    "S"  : this.getMilliseconds()             //毫秒
+                };
+                if(/(y+)/.test(fmt)) {
+                    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+                }
+                for(var k in o) {
+                    if(new RegExp("("+ k +")").test(fmt)){
+                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+                    }
+                }
+                return fmt;
+            }
+
+            $("#bookId").val(bookId);
+
+            $.ajax({
+                url : "/book/manage/" + bookId,
+                success : function (json) {
+                    var books = json.data;
+                    for (var key in books) {
+                        var obj = $("#"+key);
+                        if (key == 'publishTime') {
+                            obj.val(new Date(books[key]).format('yyyy-MM-dd'));
+                            continue;
+                        }
+                        if (obj.attr('type') != 'file') {
+                            obj.val(books[key]);
+                        }
+                    }
+                },
+                error: function () {
+                    alert("网络异常!");
+                }
+            });
+            $("#myModalLabel").text('修改书籍');
+            $("#myModal").modal('show');
+
+
+        }
+    </script>
+
+</body>
+<script>
+    $(function () {
+        $("#all").click(function () {
+            var flag = $(this).prop("checked");
+            $(".sel").each(function (i, item) {
+                $(this).prop("checked", flag);
+            });
+        });
+    });
+</script>
+<script>
+    function showInsertModal() {
+        $("#modal-form :input").not("button").each(function(item){
+            $(this).val('');
+        });
+        $("#modal-form").attr('action', '/book/manage/add');
+        $("#myModalLabel").text('添加书籍');
+        $("#myModal").modal('show');
+    }
+</script>
+<script>
+    function setToRecom() {
+        var ids = new Array();
+        $(".sel:checked").each(function (i, item) {
+            ids[i] = $(item).val();
+        });
+        var idStr = ids.join(",");
+        var msgContent = $($("#msgModal").find(".modal-body")[0]);
+        $.ajax({
+            url : "/book/recom",
+            type : "POST",
+            data : {ids : idStr},
+            success : function (json) {
+                if (json.responseCode == 'OK') {
+                    msgContent.text("设置成功!");
+                    $("#msgModal").modal("show");
+                } else {
+                    msgContent.text("设置失败!");
+                    $("#msgModal").modal("show");
+                }
+            },
+            error : function () {
+                msgContent.text("网络异常!");
+                $("#msgModal").modal("show");
+            }
+        });
+
+    }
+</script>
+</html>

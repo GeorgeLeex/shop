@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="stylesheet" th:href="@{/AmazeUI-2.4.2/assets/css/amazeui.min.css}"/>
+    <link th:href="@{/css/dlstyle.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{/AmazeUI-2.4.2/assets/js/jquery.min.js}"></script>
+    <script th:src="@{/AmazeUI-2.4.2/assets/js/amazeui.min.js}"></script>
+
+</head>
+
+<body>
+
+<div class="login-boxtitle">
+</div>
+
+<div class="res-banner">
+    <div class="res-main">
+        <div class="login-banner-bg"><span></span><img th:src="@{/images/big.jpg}"/></div>
+        <div class="login-box">
+
+            <div class="am-tabs" id="doc-my-tabs">
+                <ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
+                    <li class="am-active"><a href="">用户注册</a></li>
+                </ul>
+
+                <div class="am-tabs-bd">
+                    <div class="am-tab-panel am-active">
+                        <form>
+                            <div class="user-name">
+                                <label for="nickName"><i class="am-icon-envelope-o"></i></label>
+                                <input type="text" id="nickName" th:name="nickName" placeholder="请输入用户名">
+
+                            </div>
+                            <span style="color:red;display: none;" id="msg1"></span>
+                            <div class="user-pass">
+                                <label for="password"><i class="am-icon-lock"></i></label>
+                                <input type="password" id="password" th:name="password" placeholder="设置密码">
+                            </div>
+                            <span style="color:red;display: none;" id="msg2"></span>
+                            <div class="user-pass">
+                                <label for="passwordRepeat"><i class="am-icon-lock"></i></label>
+                                <input type="password" id="passwordRepeat" th:name="passwordRepeat"
+                                       placeholder="确认密码">
+                            </div>
+                            <span style="color:red;display: none;" id="msg3"></span>
+                        </form>
+                            <div class="login-links">
+                                <label for="reader-me">
+                                    <input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
+                                </label>
+                            </div>
+                            <div class="am-cf">
+                                <input type="button" onclick="inputCheck()" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+                            </div>
+                    </div>
+
+                    <script>
+                        $(function () {
+                            $('#doc-my-tabs').tabs();
+                        })
+                    </script>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer ">
+        <div class="footer-hd ">
+            <p>
+                <a href="# ">商城首页</a>
+                <b>|</b>
+                <a href="https://www.alipay.com" target="_blank">支付宝</a>
+            </p>
+        </div>
+        <div class="footer-bd ">
+            <p>
+                <a href="javascript:;">合作伙伴</a>
+                <a href="javascript:;">联系我们</a>
+                <a href="javascript:;">网站地图</a>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+    var userNameCanUse = false;
+
+    var canLogin = false;
+
+    function inputCheck() {
+        if (!userNameCanUse) {
+            changeBorderColor("#nickName");
+            showMsg("#msg1", "请检查用户名是否正确!")
+            canLogin = false;
+        }
+
+        var nickName = $("#nickName").val();
+
+        if (!psdCheck("#password", "2")) {
+            canLogin = false;
+        }
+
+        if (!psdCheck("#passwordRepeat", "3")) {
+            canLogin = false;
+            return false;
+        }
+
+        if ($("#password").val() != $("#passwordRepeat").val()) {
+            showMsg("#msg3", "两次输入的密码不一致!");
+            canLogin = false;
+        } else {
+            canLogin = true;
+        }
+
+        if (canLogin) {
+            $.ajax("/register", {
+                type : "POST",
+                data : {nickName : nickName, password : $("#password").val()},
+                success : function (data) {
+                    if (data == "ok") {
+                        alert("注册成功!");
+                        location.href = "/user/login";
+                    } else {
+                        alert("注册失败!");
+                    }
+                },
+                error : function () {
+                    alert("网络故障!");
+                }
+            });
+        }
+    }
+
+    function psdCheck(selector, msgId) {
+        var regExp = new RegExp("\\w{6,18}");
+        if (!regExp.test($(selector).val())) {
+            $(selector).css("border-color", "red");
+            $(selector).blur(function () {
+                $(selector).css("border-color", "");
+            });
+            showMsg("#msg" + msgId, "密码必须为6-18位的数字或字母!");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function changeBorderColor(selector) {
+        $(selector).css("border-color", "red");
+        $(selector).blur(function () {
+            $(selector).css("border-color", "none");
+        });
+    }
+
+    function showMsg(selector, msg){
+        $(selector).text(msg);
+        $(selector).show();
+    }
+
+    $(function () {
+        hiddeMsg("#nickName", "1");
+        hiddeMsg("#password", "2");
+        hiddeMsg("#passwordRepeat", "3");
+    });
+
+    function hiddeMsg(selector, msgId) {
+        $(selector).focus(function () {
+            $("#msg" + msgId).hide();
+        });
+    }
+
+    $(function () {
+        $("#nickName").blur(function () {
+            var nickNameVal = $("#nickName").val();
+            if (!new RegExp("\\w{3,16}").test(nickNameVal)) {
+                userNameCanUse = false;
+                changeBorderColor("#nickName");
+                showMsg("#msg1", "用户名格式有误!");
+            } else {
+                $.ajax("/user/namecheck", {
+                    type : "POST",
+                    data : {userName : nickNameVal},
+                    success : function (data) {
+                        if (data == 'true') {
+                            changeBorderColor("#nickName");
+                            showMsg("#msg1", "用户名已存在!");
+                            userNameCanUse = false;
+                        } else {
+                            userNameCanUse = true;
+                            $("#nickName").css("border-color", "green");
+                            $("#msg1").hide();
+                        }
+                    },
+                    error : function () {
+                        userNameCanUse = false;
+                        alert("网络异常!");
+                    }
+                });
+            }
+        });
+    });
+</script>
+</html>

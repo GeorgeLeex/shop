@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.northsky.shop.dao.BookMapper" >
+
+  <select id="selectBookWithTypeById" resultType="hashmap">
+    select b.id bookId, b.author, b.name, b.image, b.price, s.pro_name typeName
+    from book b
+    left join syscode s on b.type = s.id and s.type = '图书类别'
+    where b.id = #{bookId}
+  </select>
+
+  <select id="selectRecomBooksByIds" resultType="hashmap">
+    select b.id, b.name, b.image, b.price ,o.quantities
+      from book b
+    left join
+        (SELECT o.`book_id`,SUM(o.`quantity`) quantities FROM order_detail o GROUP BY o.`book_id`) o
+          on o.book_id = b.id
+    <where>
+      <if test="ids != null">
+        id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+          #{id}
+        </foreach>
+      </if>
+    </where>
+    order by o.quantities desc , b.price asc
+  </select>
+
+  <select id="selectBookByType" resultType="hashmap">
+    SELECT b.`id`,b.`name`,b.`price`, b.`image`, o.`quantities`
+     FROM book b
+     LEFT JOIN (SELECT o.`book_id`,SUM(o.`quantity`) quantities FROM order_detail o GROUP BY o.`book_id`) o ON o.`book_id` = b.`id`
+     where b.type = #{typeId}
+  </select>
+
+  <select id="seeBookById" resultType="hashmap">
+    select
+      b.id, b.name, b.price, b.image,b.author, b.description, b.word_num, b.page_num, b.publish_time, b.inventory,
+      s1.typeName, s2.pressName, sum(o.quantity) month_quantities, other.total_quantities
+    from `order` os
+    right join order_detail o on o.order_id = os.id
+    left join book b on b.id = o.book_id
+    left join (select o.book_id ,sum(o.quantity) total_quantities from order_detail o group by o.book_id) other on other.book_id = o.book_id
+    left join (select id, pro_name typeName from syscode  where type = '图书类别') s1 on s1.id = b.type
+    left join (select id, pro_name pressName from syscode  where type = '出版社') s2 on s2.id = b.press_id
+    where extract(YEAR_MONTH from now()) = extract(year_month from os.create_time)
+    and b.status = '1'
+    and b.id = #{bookId}
+  </select>
+
+  <select id="selectRecomBooks" resultType="hashmap">
+    select b.id, b.name, b.image, b.price ,o.quantities
+      from book b
+    left join
+        (SELECT o.`book_id`,SUM(o.`quantity`) quantities FROM order_detail o GROUP BY o.`book_id`) o
+          on o.book_id = b.id
+    order by o.quantities desc , b.price asc
+    limit 0,9
+  </select>
+
+  <select id="searchBook" resultType="hashmap">
+     SELECT b.`id`,b.`name`,b.`price`, b.`image`, b.type,  o.`quantities`
+     FROM book b
+     LEFT JOIN (SELECT o.`book_id`,SUM(o.`quantity`) quantities FROM order_detail o GROUP BY o.`book_id`) o ON o.`book_id` = b.`id`
+     <where>
+
+       <if test="bookName != null">
+          b.`name` LIKE #{bookName}
+       </if>
+
+       <if test="typeId != null">
+         AND b.type = #{typeId}
+       </if>
+
+       AND b.`status` = '1'
+     </where>
+      order by
+      <choose>
+        <when test="sortId == 1">
+          o.`quantities` DESC ,b.price ASC
+        </when>
+        <when test="sortId == 2">
+          o.`quantities` DESC
+        </when>
+        <when test="sortId == 3">
+          b.price ASC
+        </when>
+        <when test="sortId == 4">
+          b.price DESC
+        </when>
+        <otherwise>
+          b.id
+        </otherwise>
+      </choose>
+  </select>
+
+  <resultMap id="BaseResultMap" type="xyz.northsky.shop.entity.Book" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="word_num" property="wordNum" jdbcType="INTEGER" />
+    <result column="page_num" property="pageNum" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="press_id" property="pressId" jdbcType="INTEGER" />
+    <result column="publish_time" property="publishTime" jdbcType="DATE" />
+    <result column="sale_status" property="saleStatus" jdbcType="CHAR" />
+    <result column="inventory" property="inventory" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, author, price, description, word_num, page_num, image ,
+    press_id, publish_time, sale_status, inventory, type, status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="xyz.northsky.shop.entity.BookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from book
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from book
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="xyz.northsky.shop.entity.BookExample" >
+    delete from book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="xyz.northsky.shop.entity.Book" >
+    insert into book (id, name, author, 
+      price, description, word_num, 
+      page_num, image,
+      press_id, publish_time,
+      sale_status, inventory, type, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR}, #{wordNum,jdbcType=INTEGER}, 
+      #{pageNum,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR},
+       #{pressId,jdbcType=INTEGER}, #{publishTime,jdbcType=DATE},
+      #{saleStatus,jdbcType=CHAR}, #{inventory,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.northsky.shop.entity.Book" >
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="wordNum != null" >
+        word_num,
+      </if>
+      <if test="pageNum != null" >
+        page_num,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="pressId != null" >
+        press_id,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+      <if test="saleStatus != null" >
+        sale_status,
+      </if>
+      <if test="inventory != null" >
+        inventory,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="wordNum != null" >
+        #{wordNum,jdbcType=INTEGER},
+      </if>
+      <if test="pageNum != null" >
+        #{pageNum,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="pressId != null" >
+        #{pressId,jdbcType=INTEGER},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=DATE},
+      </if>
+      <if test="saleStatus != null" >
+        #{saleStatus,jdbcType=CHAR},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="xyz.northsky.shop.entity.BookExample" resultType="java.lang.Integer" >
+    select count(*) from book
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update book
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wordNum != null" >
+        word_num = #{record.wordNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.pageNum != null" >
+        page_num = #{record.pageNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pressId != null" >
+        press_id = #{record.pressId,jdbcType=INTEGER},
+      </if>
+      <if test="record.publishTime != null" >
+        publish_time = #{record.publishTime,jdbcType=DATE},
+      </if>
+      <if test="record.saleStatus != null" >
+        sale_status = #{record.saleStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.inventory != null" >
+        inventory = #{record.inventory,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update book
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      description = #{record.description,jdbcType=VARCHAR},
+      word_num = #{record.wordNum,jdbcType=INTEGER},
+      page_num = #{record.pageNum,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR},
+      press_id = #{record.pressId,jdbcType=INTEGER},
+      publish_time = #{record.publishTime,jdbcType=DATE},
+      sale_status = #{record.saleStatus,jdbcType=CHAR},
+      inventory = #{record.inventory,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.northsky.shop.entity.Book" >
+    update book
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="wordNum != null" >
+        word_num = #{wordNum,jdbcType=INTEGER},
+      </if>
+      <if test="pageNum != null" >
+        page_num = #{pageNum,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="pressId != null" >
+        press_id = #{pressId,jdbcType=INTEGER},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=DATE},
+      </if>
+      <if test="saleStatus != null" >
+        sale_status = #{saleStatus,jdbcType=CHAR},
+      </if>
+      <if test="inventory != null" >
+        inventory = #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.northsky.shop.entity.Book" >
+    update book
+    set name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      description = #{description,jdbcType=VARCHAR},
+      word_num = #{wordNum,jdbcType=INTEGER},
+      page_num = #{pageNum,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      press_id = #{pressId,jdbcType=INTEGER},
+      publish_time = #{publishTime,jdbcType=DATE},
+      sale_status = #{saleStatus,jdbcType=CHAR},
+      inventory = #{inventory,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
