@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xyz.northsky.shop.dao.BookMapper" >
 
+
   <select id="selectBookWithTypeById" resultType="hashmap">
     select b.id bookId, b.author, b.name, b.image, b.price, s.pro_name typeName
     from book b
@@ -34,18 +35,18 @@
   </select>
 
   <select id="seeBookById" resultType="hashmap">
-    select
+    SELECT
       b.id, b.name, b.price, b.image,b.author, b.description, b.word_num, b.page_num, b.publish_time, b.inventory,
-      s1.typeName, s2.pressName, sum(o.quantity) month_quantities, other.total_quantities
-    from `order` os
-    right join order_detail o on o.order_id = os.id
-    left join book b on b.id = o.book_id
-    left join (select o.book_id ,sum(o.quantity) total_quantities from order_detail o group by o.book_id) other on other.book_id = o.book_id
-    left join (select id, pro_name typeName from syscode  where type = '图书类别') s1 on s1.id = b.type
-    left join (select id, pro_name pressName from syscode  where type = '出版社') s2 on s2.id = b.press_id
-    where extract(YEAR_MONTH from now()) = extract(year_month from os.create_time)
-    and b.status = '1'
-    and b.id = #{bookId}
+      s1.typeName, s2.pressName, SUM(o.quantity) month_quantities, other.total_quantities
+    FROM book b
+    INNER JOIN (SELECT id, pro_name typeName FROM syscode  WHERE TYPE = '图书类别') s1 ON s1.id = b.type
+    INNER JOIN (SELECT id, pro_name pressName FROM syscode  WHERE TYPE = '出版社') s2 ON s2.id = b.press_id
+    LEFT JOIN order_detail o ON o.`book_id` = b.`id`
+    LEFT JOIN `order` os ON os.`id` = o.`order_id`
+    LEFT JOIN (SELECT o.book_id ,SUM(o.quantity) total_quantities FROM order_detail o GROUP BY o.book_id) other ON other.book_id = b.`id`
+    AND EXTRACT(YEAR_MONTH FROM NOW()) = EXTRACT(YEAR_MONTH FROM os.create_time)
+    WHERE b.status = '1'
+    AND b.id = #{bookId}
   </select>
 
   <select id="selectRecomBooks" resultType="hashmap">

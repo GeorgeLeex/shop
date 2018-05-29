@@ -8,9 +8,13 @@ public interface AlipayConfig {
 
     String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1g+A1dohEmHuwyh6LYI5z9+NsTg6SPXK/WSM9eabdEPCdRtl7gUnPOZ88RsMVbyYjbGyr5vUvf99+rXKG1r3DRYOWQ1o+RR+dMqHomt/2LGKz4jxqzKAuUYw7xcSDsz6IhtBofIo+T6kSJ0TTs5KPIzwRdnnJts/urciSYLMmWfcvnNLKuv3ppnBRu978C+oc6SnObl0P1ni1vFTum62hga1rzW20ucAhx2VwC/MK57rTadYsPZf/12yLK3fokArWdLjXjS/iRcSE1tZ12AS89rv357ryfPqbU4EalrImCPPrqCkHLgpeRghgetXle3sEY9tFh6mnochOQ1GVDAbUwIDAQAB";
 
-    String NOTIFY_URL = "http://enzeg7.natappfree.cc/order/process";
+    /*String NOTIFY_URL = "http://9jb6s3.natappfree.cc/order/process";
 
-    String USER_RETURN_URL = "http://enzeg7.natappfree.cc/order/success";
+    String USER_RETURN_URL = "http://9jb6s3.natappfree.cc/order/success";*/
+
+    String NOTIFY_URL = "http://www.northsky.xyz:8080/order/process";
+
+    String USER_RETURN_URL = "http://www.northsky.xyz:8080/order/success";
 
     String SIGN_TYPE = "RSA2";
 

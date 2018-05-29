@@ -39,14 +39,14 @@ public class GlobalConfiguration {
         return redisTemplate;
     }
 
-    /*@Bean
+    @Bean
     public FilterRegistrationBean filterRegistration(){
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setFilter(new UserFilter());
-        bean.addUrlPatterns("/");
+        bean.addUrlPatterns("/*");
         bean.addServletNames("userFilter");
         return bean;
-    }*/
+    }
 
     /*@Bean(name = "userFilter")
     public Filter userFilter(){

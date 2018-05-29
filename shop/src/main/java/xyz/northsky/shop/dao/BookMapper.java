@@ -43,4 +43,5 @@ public interface BookMapper {
     List<Map<String,Object>> selectRecomBooksByIds(@Param("ids") List<Integer> ids);
 
     HashMap<String,Object> selectBookWithTypeById(Integer id);
+
 }

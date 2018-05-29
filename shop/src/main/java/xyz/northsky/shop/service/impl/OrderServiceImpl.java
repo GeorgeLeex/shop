@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.northsky.shop.dao.BookMapper;
 import xyz.northsky.shop.dao.OrderDetailMapper;
 import xyz.northsky.shop.dao.OrderMapper;
 import xyz.northsky.shop.dto.BookDto;
 import xyz.northsky.shop.dto.OrderDetailDto;
 import xyz.northsky.shop.dto.OrderInfo;
+import xyz.northsky.shop.entity.Book;
 import xyz.northsky.shop.entity.Order;
 import xyz.northsky.shop.entity.OrderDetail;
 import xyz.northsky.shop.entity.OrderExample;
@@ -30,6 +32,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired(required = false)
     private OrderDetailMapper orderDetailMapper;
+
+    @Autowired(required = false)
+    private BookMapper bookMapper;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -63,6 +68,8 @@ public class OrderServiceImpl implements OrderService {
                 logger.info("订单明细插入失败, orderDetail:"+orderDetail);
                 throw new RuntimeException();
             }
+
+
         }
 
         return true;
@@ -124,5 +131,15 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus("0");
         order.setId(orderId);
         return orderMapper.updateByPrimaryKeySelective(order) > 0;
+    }
+
+    @Override
+    @Transactional
+    public boolean activeOrderByNo(String tradeNo) {
+        Order order = new Order();
+        order.setStatus("1");
+        OrderExample orderExample = new OrderExample();
+        orderExample.createCriteria().andOrderNoEqualTo(tradeNo);
+        return orderMapper.updateByExampleSelective(order, orderExample) > 0;
     }
 }

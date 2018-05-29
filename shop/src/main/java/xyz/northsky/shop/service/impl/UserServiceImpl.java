@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean addUser(User user) {
+        user.setStatus("1");
         return userMapper.insert(user) > 0;
     }
 

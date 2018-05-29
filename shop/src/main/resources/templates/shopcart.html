@@ -30,7 +30,7 @@
             <div class="menu-hd" th:if="${session.user != null}">
                 <a th:href="@{/index}">网站首页</a>
             </div>
-            <a style="position:absolute;left:1300px;top: 0;" th:href="@{/logout}">退出</a>
+            <a style="position:absolute;left:82%;top: 0;" th:href="@{/logout}">退出</a>
         </div>
     </ul>
 </div>
@@ -262,10 +262,10 @@
 </div>
 <!--引导 -->
 <div class="navCir">
-    <li><a href="home.html"><i class="am-icon-home "></i>首页</a></li>
-    <li><a href="sort.html"><i class="am-icon-list"></i>分类</a></li>
-    <li class="active"><a href="shopcart.html"><i class="am-icon-shopping-basket"></i>购物车</a></li>
-    <li><a th:href="@{/person/index.html}"><i class="am-icon-user"></i>我的</a></li>
+    <li class="active"><a th:href="@{/index}"><i class="am-icon-home "></i>首页</a></li>
+    <li><a href="javascript:;"><i class="am-icon-list"></i>分类</a></li>
+    <li><a th:href="@{{val}(val=${session.user != null ? '/cart/'+session.user.id : 'javascript:;'})}"><i class="am-icon-shopping-basket"></i>购物车</a></li>
+    <li><a th:href="@{{val}(val=${session.user != null ? '/user/'+session.user.id : 'javascript:;'})}"><i class="am-icon-user"></i>我的</a></li>
 </div>
 </body>
 <script>

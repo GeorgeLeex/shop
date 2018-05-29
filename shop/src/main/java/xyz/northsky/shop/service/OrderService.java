@@ -15,4 +15,6 @@ public interface OrderService {
     boolean updateOrderStatusById(Integer orderId);
 
     boolean deleteOrderStatusById(Integer orderId);
+
+    boolean activeOrderByNo(String tradeNo);
 }

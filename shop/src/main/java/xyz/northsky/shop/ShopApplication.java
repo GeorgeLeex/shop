@@ -12,7 +12,6 @@ import xyz.northsky.shop.config.UserFilter;
 @EnableCaching
 /*@EnableJpaRepositories*/
 @MapperScan("xyz.northsky.shop.dao")
-@ServletComponentScan(basePackageClasses = {UserFilter.class})
 @EnableScheduling
 public class ShopApplication {
 

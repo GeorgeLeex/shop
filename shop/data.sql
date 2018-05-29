@@ -31,25 +31,11 @@ CREATE TABLE `address` (
   `address_detail` varchar(255) DEFAULT NULL,
   `status` char(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `address` */
 
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (1,1,'11111','11111111111','河北省','邢台市','临城县','峨眉山旅游6666号店','1');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (2,2,'11111','11111111111','山西省','晋城市','沁水县','1','1');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (3,2,'11111','11111111111','吉林省','辽源市','龙山区','111','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (4,2,'11111','11111111111','福建省','南平市','邵武市','111','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (5,2,'11111','11111111111','湖南省','湘潭市','雨湖区','1','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (6,2,'11111','11111111111','湖南省','长沙市','岳麓区','222','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (7,2,'雷德黑手','13332435111','福建省','南平市','光泽县','``111','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (8,2,'11111','11111111111','江苏省','徐州市','云龙区','1111','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (9,2,'11111','11111111111','安徽省','阜阳市','阜南县','1','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (10,2,'11111','11111111111','河南省','鹤壁市','淇滨区','1','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (11,2,'11111','11111111111','湖北省','宜昌市','伍家岗区','1111','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (12,2,'金凯瑞','13144144114','浙江省','杭州市','上城区','芙蓉路1353号','1');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (13,2,'蓝蓝路','13829320734','安徽省','芜湖市','芜湖县','dasima','1');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (14,2,'zero','11111111111','内蒙古自治区','包头市','东河区','ddawda','0');
-insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (15,1,'亚里士多德','13224432345','安徽省','黄山市','休宁县','23534543','1');
+insert  into `address`(`id`,`user_id`,`receiver`,`tel`,`province`,`city`,`county`,`address_detail`,`status`) values (1,2,'马克思','18234564456','河北省','石家庄市','无极县','哲学之家','1');
 
 /*Table structure for table `book` */
 
@@ -71,36 +57,11 @@ CREATE TABLE `book` (
   `type` int(11) DEFAULT NULL,
   `status` char(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 /*Data for the table `book` */
 
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (1,'解忧杂货铺','宫崎英高','55.32','传火之旅',60000,429,'fa13e5a4-49d8-4ace-9944-785764355c0e.jpg','2018-05-01',26,NULL,998,23,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (2,'小王子','亚里士多德','89.23','必读经典',200000,100,'83e42f6f-5eef-4dac-bb55-9bfdfe1350be.jpg','1970-01-01',26,NULL,25,8,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (3,'世界简史',NULL,'39.67',NULL,NULL,NULL,'1526111611611.jpg',NULL,NULL,NULL,998,9,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (4,'追风筝的人',NULL,'34.12',NULL,NULL,NULL,'1526111672984.jpg',NULL,NULL,NULL,998,23,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (5,'哈利波特','【英】J·K·罗琳','120.34','<pre>《圣器》主要讲述了十七岁的哈利本应在霍格沃茨魔法学校继续最后一年的学业，但为了完成己故魔法学校前任校长邓布利多留给他消灭伏地魔的任务，哈利和好友面对伏地魔及其追随者食死徒的围追堵截，隐形循迹、历经艰险，最终销毁多个魂器并战胜伏地魔，取得魔法世界伟大胜利的故事。\r\n  \r\n还有四天，哈利就要迎来自己十七岁的生日，成为一名真正的魔法师。然而，他不得不提前离开女贞路 4号，永远离开这个他曾经生活了将近十七年的地方。\r\n凤凰社的成员精心谋划了秘密转移哈利的计划，以防哈利遭到伏地魔及其追随者食死徒的袭击。然而，可怕的意外还是发生了。\r\n与此同时，卷土重来的伏地魔已经染指霍格沃茨魔法学校，占领了魔法部，控制了半个魔法界，形势急转直下。\r\n哈利在罗恩、赫敏的陪伴下，不得不逃亡在外，隐形遁迹。为了完成校长邓布利多的遗命，一直在暗中寻机销毁伏地魔魂器的哈利，意外地获悉如果他们能够拥有传说中的三件死亡圣器，伏地魔将必死无疑。但是，伏地魔也早已开始了寻找长老魔杖的行动，并派出众多食死徒，布下天罗地网追捕哈利。\r\n哈利与伏地魔在魔法学校的禁林中相遇了，哈利倒在伏地魔抢先到手的一件致命的圣器之下。\r\n然而，伏地魔未能如愿以偿，魂器不可能战胜纯正的灵魂。哈利赢得了这场殊死较量的最终胜利。\r\n哈利·波特虽然差点身亡，最后神奇的死而复生，还和好朋友罗恩的妹妹金妮结婚生子，而之前传出最可能会死亡的罗恩和赫敏也逃过一劫，还幸福的走上红毯。 所有的秘密都已揭晓。19年后，哈利和金妮有三个孩子，赫敏和罗恩也结婚生子。两家人重聚九又四分之三站台，送孩子们去霍格沃茨。</pre>',516000,607,'1526111694760.jpg','2007-10-28',25,NULL,998,22,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (6,'围城',NULL,'56.34',NULL,NULL,NULL,'1526111726397.jpg',NULL,26,NULL,998,21,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (26,'解忧杂货铺','无名','55.32','解忧杂货铺',60000,429,'1526110988601.jpg','2018-05-02',25,NULL,998,7,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (27,'小王子',NULL,'89.23',NULL,NULL,NULL,'1526111611610.jpg',NULL,NULL,NULL,998,8,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (28,'世界简史',NULL,'39.67',NULL,NULL,NULL,'1526111611611.jpg',NULL,NULL,NULL,998,9,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (29,'追风筝的人',NULL,'34.12',NULL,NULL,NULL,'1526111672984.jpg',NULL,NULL,NULL,998,23,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (30,'哈利波特',NULL,'120.34',NULL,NULL,NULL,'1526111694760.jpg',NULL,NULL,NULL,998,22,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (31,'围城',NULL,'56.34',NULL,NULL,NULL,'1526111726397.jpg',NULL,NULL,NULL,998,21,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (33,'解忧杂货铺',NULL,'55.32',NULL,NULL,NULL,'1526110988601.jpg',NULL,NULL,NULL,998,7,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (34,'小王子',NULL,'89.23',NULL,NULL,NULL,'1526111611610.jpg',NULL,NULL,NULL,998,8,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (35,'世界简史',NULL,'39.67',NULL,NULL,NULL,'1526111611611.jpg',NULL,NULL,NULL,998,9,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (36,'追风筝的人',NULL,'34.12',NULL,NULL,NULL,'1526111672984.jpg',NULL,NULL,NULL,998,23,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (37,'哈利波特',NULL,'120.34',NULL,NULL,NULL,'1526111694760.jpg',NULL,NULL,NULL,998,22,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (38,'围城',NULL,'56.34',NULL,NULL,NULL,'1526111726397.jpg',NULL,NULL,NULL,998,21,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (39,'解忧杂货铺',NULL,'55.32',NULL,NULL,NULL,'1526110988601.jpg',NULL,NULL,NULL,998,7,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (40,'小王子',NULL,'89.23',NULL,NULL,NULL,'1526111611610.jpg',NULL,NULL,NULL,998,8,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (41,'世界简史',NULL,'39.67',NULL,NULL,NULL,'1526111611611.jpg',NULL,NULL,NULL,998,9,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (42,'追风筝的人',NULL,'34.12',NULL,NULL,NULL,'1526111672984.jpg',NULL,NULL,NULL,998,23,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (43,'哈利波特',NULL,'120.34',NULL,NULL,NULL,'1526111694760.jpg',NULL,NULL,NULL,998,22,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (44,'围城',NULL,'56.34',NULL,NULL,NULL,'1526111726397.jpg',NULL,NULL,NULL,998,21,'0');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (45,'我的免费隧道','盖聂','93.43','刺客王朝',300000,300,'52180dc82d5f44b9922063626b0a5420.jpg','2018-05-02',25,NULL,340,20,'1');
-insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (46,'浮生若梦','不知名文人','54.32','人生不过一场梦',98733,2334,'fccf98bd-82b2-4c2d-9c28-9f9587752249.jpg','2018-05-24',26,NULL,33,14,'1');
+insert  into `book`(`id`,`name`,`author`,`price`,`description`,`word_num`,`page_num`,`image`,`publish_time`,`press_id`,`sale_status`,`inventory`,`type`,`status`) values (47,'哈利·波特与死亡圣器','【英】J·K·罗琳','58.34','还有四天，哈利就要迎来自己十七岁的生日，成为一名真正的魔法师。然而，他不得不提前离开女贞路 4号，永远离开这个他曾经生活了将近十七年的地方。\r\n凤凰社的成员精心谋划了秘密转移哈利的计划，以防哈利遭到伏地魔及其追随者食死徒的袭击。然而，可怕的意外还是发生了。\r\n与此同时，卷土重来的伏地魔已经染指霍格沃茨魔法学校，占领了魔法部，控制了半个魔法界，形势急转直下。\r\n哈利在罗恩、赫敏的陪伴下，不得不逃亡在外，隐形遁迹。为了完成校长邓布利多的遗命，一直在暗中寻机销毁伏地魔魂器的哈利，意外地获悉如果他们能够拥有传说中的三件死亡圣器，伏地魔将必死无疑。但是，伏地魔也早已开始了寻找长老魔杖的行动，并派出众多食死徒，布下天罗地网追捕哈利。\r\n哈利与伏地魔在魔法学校的禁林中相遇了，哈利倒在伏地魔抢先到手的一件致命的圣器之下。\r\n然而，伏地魔未能如愿以偿，魂器不可能战胜纯正的灵魂。哈利赢得了这场殊死较量的最终胜利。\r\n哈利·波特虽然差点身亡，最后神奇的死而复生，还和好朋友罗恩的妹妹金妮结婚生子，而之前传出最可能会死亡的罗恩和赫敏也逃过一劫，还幸福的走上红毯。 所有的秘密都已揭晓。19年后，哈利和金妮有三个孩子，赫敏和罗恩也结婚生子。两家人重聚九又四分之三站台，送孩子们去霍格沃茨',516000,607,'7c6134693ed74e1db76af88f5d22e1a6.jpg','2007-10-28',25,NULL,1999,18,'1');
 
 /*Table structure for table `cart` */
 
@@ -114,16 +75,9 @@ CREATE TABLE `cart` (
   `quantity` int(11) DEFAULT NULL,
   `status` char(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `cart` */
-
-insert  into `cart`(`id`,`user_id`,`cart_id`,`book_id`,`quantity`,`status`) values (1,2,NULL,5,17,'0');
-insert  into `cart`(`id`,`user_id`,`cart_id`,`book_id`,`quantity`,`status`) values (2,2,NULL,6,3,'0');
-insert  into `cart`(`id`,`user_id`,`cart_id`,`book_id`,`quantity`,`status`) values (3,2,NULL,46,6,'0');
-insert  into `cart`(`id`,`user_id`,`cart_id`,`book_id`,`quantity`,`status`) values (4,2,NULL,45,1,'0');
-insert  into `cart`(`id`,`user_id`,`cart_id`,`book_id`,`quantity`,`status`) values (5,2,NULL,1,1,'1');
-insert  into `cart`(`id`,`user_id`,`cart_id`,`book_id`,`quantity`,`status`) values (6,2,NULL,28,3,'0');
 
 /*Table structure for table `menu` */
 
@@ -160,29 +114,11 @@ CREATE TABLE `order` (
   `receiver` varchar(30) DEFAULT NULL,
   `tel` char(11) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
-  `status` char(1) DEFAULT '1',
+  `status` char(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `order` */
-
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (1,'2018051312345678',NULL,'2018-05-13 00:00:00',NULL,'2018-05-17 00:00:00',NULL,NULL,NULL,NULL,'1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (2,'2018051312345679',NULL,'2018-05-01 00:00:00',NULL,'2018-05-04 00:00:00',NULL,NULL,NULL,NULL,'1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (3,'2018051312345680',NULL,'2018-04-04 00:00:00',NULL,'2018-05-16 00:00:00',NULL,NULL,NULL,NULL,'1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (6,'20180519055230',2,'2018-05-19 17:52:30',NULL,NULL,'409.70','11111','11111111111','山西省晋城市沁水县1','1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (7,'20180519061242',2,'2018-05-19 18:12:43',NULL,NULL,'409.70','11111','11111111111','山西省晋城市沁水县1','2');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (8,'20180519061654',2,'2018-05-19 18:16:54',NULL,NULL,'169.02','11111','11111111111','山西省晋城市沁水县1','2');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (9,'20180519061854',2,'2018-05-19 18:18:54',NULL,NULL,'240.68','11111','11111111111','山西省晋城市沁水县1','2');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (10,'20180519062142',2,'2018-05-19 18:21:43',NULL,'2018-05-25 06:16:14','409.70','11111','11111111111','山西省晋城市沁水县1','0');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (11,'20180519062302',2,'2018-05-19 18:23:02',NULL,NULL,'409.70','11111','11111111111','山西省晋城市沁水县1','1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (12,'20180519064254',2,'2018-05-19 18:42:55',NULL,NULL,'409.70','蓝蓝路','13829320734','安徽省芜湖市芜湖县dasima','1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (13,'20180519064545',2,'2018-05-19 18:45:45',NULL,NULL,'409.70','金凯瑞','13144144114','浙江省杭州市上城区芙蓉路1353号','1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (14,'20180519064833',2,'2018-05-19 18:48:33',NULL,NULL,'409.70','zero','11111111111','内蒙古自治区包头市东河区ddawda','1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (15,'20180525102602',2,'2018-05-25 10:26:03',NULL,NULL,'89.23','11111','11111111111','山西省晋城市沁水县1','1');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (16,'20180525104515',2,'2018-05-25 10:45:16',NULL,'2018-05-25 06:36:16','54.32','11111','11111111111','山西省晋城市沁水县1','2');
-insert  into `order`(`id`,`order_no`,`user_id`,`create_time`,`pay_time`,`finish_time`,`pay_amount`,`receiver`,`tel`,`address`,`status`) values (17,'20180525021531',2,'2018-05-25 14:15:32',NULL,'2018-05-25 06:24:25','119.01','金凯瑞','13144144114','浙江省杭州市上城区芙蓉路1353号','0');
 
 /*Table structure for table `order_detail` */
 
@@ -197,37 +133,9 @@ CREATE TABLE `order_detail` (
   `total` decimal(12,2) DEFAULT NULL,
   `status` char(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `order_detail` */
-
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (1,1,1,NULL,3,NULL,'1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (2,1,2,NULL,4,NULL,'1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (3,1,3,NULL,5,NULL,'1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (4,2,4,NULL,6,NULL,'1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (5,2,5,NULL,43,NULL,'1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (6,2,6,NULL,22,NULL,'1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (7,3,2,NULL,6,NULL,'1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (8,3,5,NULL,7,NULL,'1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (9,6,1,'120.34',2,'240.68','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (10,6,2,'56.34',3,'169.02','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (11,7,1,'120.34',2,'240.68','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (12,7,2,'56.34',3,'169.02','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (13,8,2,'56.34',3,'169.02','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (14,9,1,'120.34',2,'240.68','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (15,10,1,'120.34',2,'240.68','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (16,10,2,'56.34',3,'169.02','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (17,11,1,'120.34',2,'240.68','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (18,11,2,'56.34',3,'169.02','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (19,12,1,'120.34',2,'240.68','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (20,12,2,'56.34',3,'169.02','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (21,13,1,'120.34',2,'240.68','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (22,13,2,'56.34',3,'169.02','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (23,14,1,'120.34',2,'240.68','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (24,14,2,'56.34',3,'169.02','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (25,15,2,'89.23',1,'89.23','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (26,16,46,'54.32',1,'54.32','1');
-insert  into `order_detail`(`id`,`order_id`,`book_id`,`single_money`,`quantity`,`total`,`status`) values (27,17,28,'39.67',3,'119.01','1');
 
 /*Table structure for table `syscode` */
 
@@ -241,7 +149,7 @@ CREATE TABLE `syscode` (
   `f_id` int(11) DEFAULT NULL,
   `status` char(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
 
 /*Data for the table `syscode` */
 
@@ -271,13 +179,32 @@ insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) value
 insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (24,'图书类别','心理学',24,2,'1');
 insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (25,'出版社','Bloomsbury',NULL,-1,'1');
 insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (26,'出版社','上海晨光出版公司',NULL,-1,'1');
-insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (27,'图书类别','哲学',NULL,1,'0');
-insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (28,'图书类别','王の哲学',NULL,2,'1');
-insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (29,'图书类别','计算机111',NULL,1,'0');
-insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (30,'图书类别','王的哲学',NULL,2,'0');
-insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (31,'出版社','哔哩哔哩出版社',NULL,NULL,'1');
-insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (32,'出版社','北方工业出版社',NULL,NULL,'1');
-insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (34,'出版社','联想扬天出版社',NULL,NULL,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (36,'图书类别','0-2岁',NULL,3,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (37,'图书类别','3-6岁',NULL,3,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (38,'图书类别','7-10岁',NULL,3,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (39,'图书类别','11-14岁',NULL,3,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (40,'图书类别','外语',NULL,4,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (41,'图书类别','考试',NULL,4,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (42,'图书类别','中小学教辅',NULL,4,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (43,'图书类别','教材',NULL,4,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (44,'图书类别','历史',NULL,5,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (45,'图书类别','古籍',NULL,5,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (46,'图书类别','哲学/宗教',NULL,5,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (47,'图书类别','政治/军事',NULL,5,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (48,'图书类别','经济',NULL,5,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (49,'图书类别','管理',NULL,5,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (50,'图书类别','投资理财',NULL,5,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (51,'图书类别','社会科学',NULL,5,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (52,'图书类别','法律',NULL,5,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (53,'图书类别','保健/养生',NULL,6,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (54,'图书类别','旅游/地图',NULL,6,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (55,'图书类别','时尚/美妆',NULL,6,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (56,'图书类别','烹饪/美食',NULL,6,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (57,'图书类别','两性关系',NULL,6,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (58,'图书类别','孕产/胎教',NULL,6,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (59,'图书类别','育儿/早教',NULL,6,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (60,'图书类别','亲子/家教',NULL,6,'1');
+insert  into `syscode`(`id`,`type`,`pro_name`,`pro_value`,`f_id`,`status`) values (61,'图书类别','家庭/家居',NULL,6,'1');
 
 /*Table structure for table `user` */
 
@@ -291,32 +218,41 @@ CREATE TABLE `user` (
   `password` varchar(16) DEFAULT NULL,
   `gender` char(1) DEFAULT NULL,
   `birth` date DEFAULT NULL,
-  `email` varchar(20) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
   `tel` char(11) DEFAULT NULL,
   `status` char(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (1,'zhangsan','zs',NULL,'123456','0',NULL,'21233@qq.com','123453323','0');
 insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (2,'georgelee','lee','4602e0a79ab2430e85c9c8f11892922f.jpg','123456','1','2018-05-20','21233@qq.com','18829382345','3');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (3,NULL,'wangwu',NULL,'123456',NULL,NULL,NULL,NULL,NULL);
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (4,NULL,'zhaoliu',NULL,'123456',NULL,NULL,NULL,NULL,NULL);
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (5,NULL,'damu',NULL,'123456',NULL,NULL,NULL,NULL,NULL);
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (7,NULL,'heiba',NULL,'123456',NULL,NULL,NULL,NULL,NULL);
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (8,NULL,'laojiu',NULL,'110120',NULL,NULL,NULL,NULL,NULL);
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (9,'佟大为','tongdawei',NULL,'123456',NULL,'2018-05-03','327648676@qq.com','18829382345','0');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (10,'佟大为','tongdawei',NULL,'123456',NULL,'2018-05-03','327648676@qq.com','18829382345','1');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (11,'切格瓦拉','budagon',NULL,'123456','',NULL,'','','3');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (12,'琼恩斯诺','johnsino',NULL,'jionsino','1','2018-05-01','jonhnsino@qq.com','12734849321','1');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (13,'北桥疯','bqf',NULL,'bqf123','1','2018-05-24','beiqiaofeng@163.com','18766666666','1');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (14,'林夕梦','linxm',NULL,'lxm123','0','2018-05-02','linxm@163.com','18237482394','1');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (15,'巫妖王','wyw',NULL,'wyw123','1','2018-05-20','wyw@outlook.com','18766666666','1');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (16,'南慕容','nanmurong',NULL,'nmr123','1','2018-05-02','nanmorong@163.com','13872389991','1');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (17,'zhangsan','zs',NULL,'123456','1',NULL,'21233@qq.com','123453323','1');
-insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (18,'zhangsan','zs',NULL,'123456','1',NULL,'21233@qq.com','123453323','1');
+insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (3,'牛顿','niudun','af85c0a6460849f8b7f10ad38f4440d7.jpg','123456','1','1977-06-07','niudun@niubi.com','13872389990','1');
+insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (4,'切格瓦拉','qiegewala','7aadf8e5069b4e2c8503791a4d31f0d0.jpg','qgwl123','1','2014-01-27','qgwl@bdg.com','13756743577','1');
+insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (5,'金克斯','jinx','994b3f93fb5c4260bcb0ac994cb5dc3a.jpg','jinxjinx','0','2013-01-01','jinx@lol.com','17638493021','1');
+insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (6,'阿甘左','aganzo','ba931a753cad4ff9a7c1833d821113aa.jpg','agz123','1','1983-04-01','aganzo@dnf.com','17384940321','1');
+insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (7,'赛利亚','sailia','ae4841b6e2d541c99ee600836549d296.jpg','sly123','0','2008-01-01','sailia@dnf.com','18345352356','1');
+insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (8,'Taylor Swift','taylor','9a8431ab76fd40c6844915d2b0af55a3.jpg','tl1989','0','1989-12-24','taylor@tl.com','17344543543','1');
+insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (9,'欧尔麦特','オルメット','9de610da16d449bd86cbf41e6646fece.jpg','THEPEACE','1','1982-03-21','orumeto@xiongying.com','18324353667','1');
+insert  into `user`(`id`,`name`,`nick_name`,`img`,`password`,`gender`,`birth`,`email`,`tel`,`status`) values (11,'junk dog','joe','eadcccb7b43448bdbfbbe9abcf93e652.jpg','joe123','1','1993-04-07','joe@megalobox.com','18766666666','1');
+
+/* Trigger structure for table `order_detail` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tg_bookQuantity` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tg_bookQuantity` BEFORE INSERT ON `order_detail` FOR EACH ROW begin
+  declare num int;
+  set num = (select inventory-new.quantity  from book where id = new.book_id);
+  if num < 0 then
+    signal sqlstate 'HY000' set message_text = '库存不足';
+  end if;
+  update book set inventory = num where id = new.book_id;
+end */$$
+
+
+DELIMITER ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

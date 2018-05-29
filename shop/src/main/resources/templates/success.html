@@ -28,7 +28,7 @@
             <div class="menu-hd" th:if="${session.user != null}">
                 <a th:href="@{/index}">网站首页</a>
             </div>
-            <a style="position:absolute;left:1300px;top: 0;" th:href="@{/logout}">退出</a>
+            <a style="position:absolute;left:82%;top: 0;" th:href="@{/logout}">退出</a>
         </div>
     </ul>
 </div>
@@ -60,7 +60,7 @@ width:100% ;max-width:1000px;margin:0px auto;margin-top: 50px;':''}">
             </ul>
             <div class="option">
                 <span class="info">您可以</span>
-                <a th:href="@{/person/order.html}" class="J_MakePoint">查看<span>已买到的宝贝</span></a>
+                <a th:href="@{{val}(val=${session.user != null ? '/order/' + session.user.id + '/3' : 'javascript:;'})}" class="J_MakePoint">查看<span>我的订单</span></a>
             </div>
         </div>
     </div>

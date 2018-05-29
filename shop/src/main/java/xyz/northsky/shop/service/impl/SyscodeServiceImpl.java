@@ -36,6 +36,12 @@ public class SyscodeServiceImpl implements SyscodeService {
             return hashMap;
         }
 
+        updateCacheTypes(type, bookTypes);
+
+        return bookTypes;
+    }
+
+    private void updateCacheTypes(String type, Map<String, List<LabelValueBean>> bookTypes) {
         List<Map<String, Object>> mapList = syscodeMapper.selectByType(type);
         if (CollectionUtil.isNotEmpty(mapList)) {
             mapList.forEach(map -> {
@@ -54,8 +60,6 @@ public class SyscodeServiceImpl implements SyscodeService {
             });
             redisTemplate.opsForValue().set(BOOK_TYPES_NAME, bookTypes);
         }
-
-        return bookTypes;
     }
 
     @Override
@@ -93,13 +97,21 @@ public class SyscodeServiceImpl implements SyscodeService {
 
     @Override
     public boolean updateTypeSelective(Syscode syscode) {
-        return syscodeMapper.updateByPrimaryKeySelective(syscode) > 0;
+        boolean isUpdate = syscodeMapper.updateByPrimaryKeySelective(syscode) > 0;
+        if (isUpdate) {
+            updateCacheTypes("图书类别", new HashMap<>());
+        }
+        return isUpdate;
     }
 
     @Override
     public boolean insertType(Syscode syscode) {
         syscode.setType("图书类别");
-        return syscodeMapper.insertSelective(syscode) > 0;
+        boolean isInsert = syscodeMapper.insertSelective(syscode) > 0;
+        if (isInsert) {
+            updateCacheTypes("图书类别", new HashMap<>());
+        }
+        return isInsert;
     }
 
     @Override
@@ -107,7 +119,11 @@ public class SyscodeServiceImpl implements SyscodeService {
         Syscode syscode = new Syscode();
         syscode.setStatus("0");
         syscode.setId(typeId);
-        return syscodeMapper.updateByPrimaryKeySelective(syscode) > 0;
+        boolean isDelete = syscodeMapper.updateByPrimaryKeySelective(syscode) > 0;
+        if (isDelete) {
+            updateCacheTypes("图书类别", new HashMap<>());
+        }
+        return isDelete;
     }
 
     @Override
@@ -123,7 +139,11 @@ public class SyscodeServiceImpl implements SyscodeService {
 
                 syscode.setStatus("0");
                 criteria.andIdIn(list);
-                return syscodeMapper.updateByExampleSelective(syscode, syscodeExample) > 0;
+                boolean isDelete = syscodeMapper.updateByExampleSelective(syscode, syscodeExample) > 0;
+                if (isDelete) {
+                    updateCacheTypes("图书类别", new HashMap<>());
+                }
+                return isDelete;
             }
         }
 

@@ -15,8 +15,6 @@ spring:
       stat-view-servlet:
         enabled: true
         allow: 127.0.0.1
-        login-username: georgelee
-        login-password: 123456
         reset-enable: false
         url-pattern: /druid/*
       web-stat-filter:
@@ -30,12 +28,15 @@ spring:
     port: 6379
   resources:
     static-locations: classpath:/META-INF/resources/, classpath:/resources/, classpath:/static/, file:${img.access-location}
+  mvc:
+    favicon:
+      enabled: false
 #  devtools:
 #    restart:
 #      exclude: xyz/northsky/shop/**
 #      additional-paths: src/main/resources/templates
 server:
-  port: 8888
+  port: 8080
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -49,6 +50,8 @@ pagehelper:
   params: count=countsql
 
 img:
-  upload-location : D:/uploaded_files/images
-  access-location : D:/uploaded_files
+#  upload-location : D:/uploaded_files/images
+#  access-location : D:/uploaded_files
+  upload-location : /home/lee/uploaded_files/images
+  access-location : /home/lee/uploaded_files
 

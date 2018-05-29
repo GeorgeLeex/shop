@@ -31,7 +31,7 @@
                         <div class="menu-hd" th:if="${session.user != null}">
                             <a th:href="@{/index}">网站首页</a>
                         </div>
-                        <a style="position:absolute;left:1300px;top: 0;" th:href="@{/logout}">退出</a>
+                        <a style="position:absolute;left:82%;top: 0;" th:href="@{/logout}">退出</a>
                     </div>
                 </ul>
             </div>
@@ -95,7 +95,7 @@
                         <div class="am-form-group">
                             <label for="user-name2" class="am-form-label">昵称</label>
                             <div class="am-form-content">
-                                <input type="text" id="user-name2" name="nickName" th:value="${userInfo.nickName}" placeholder="nickname">
+                                <input type="text" id="user-name2" maxlength="16" name="nickName" th:value="${userInfo.nickName}" placeholder="nickname">
 
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                         <div class="am-form-group">
                             <label for="user-name" class="am-form-label">姓名</label>
                             <div class="am-form-content">
-                                <input type="text" id="user-name" placeholder="name" name="name" th:value="${userInfo.name}">
+                                <input type="text" maxlength="20" id="user-name" placeholder="name" name="name" th:value="${userInfo.name}">
 
                             </div>
                         </div>
@@ -130,14 +130,14 @@
                         <div class="am-form-group">
                             <label for="user-phone" class="am-form-label">电话</label>
                             <div class="am-form-content">
-                                <input id="user-phone" name="tel" th:value="${userInfo.tel}" placeholder="telephonenumber" type="tel">
+                                <input id="user-phone" name="tel" maxlength="11" th:value="${userInfo.tel}" placeholder="telephonenumber" type="tel">
 
                             </div>
                         </div>
                         <div class="am-form-group">
                             <label for="user-email" class="am-form-label">电子邮件</label>
                             <div class="am-form-content">
-                                <input id="user-email" placeholder="Email" type="email" name="email" th:value="${userInfo.email}">
+                                <input id="user-email" maxlength="50" placeholder="Email" type="email" name="email" th:value="${userInfo.email}">
 
                             </div>
                         </div>

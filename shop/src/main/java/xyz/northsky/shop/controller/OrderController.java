@@ -4,6 +4,7 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Joiner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,10 @@ import xyz.northsky.shop.dto.OrderDetailDto;
 import xyz.northsky.shop.dto.OrderInfo;
 import xyz.northsky.shop.entity.Address;
 import xyz.northsky.shop.entity.User;
-import xyz.northsky.shop.service.AddressService;
-import xyz.northsky.shop.service.BookService;
-import xyz.northsky.shop.service.CartService;
-import xyz.northsky.shop.service.OrderService;
+import xyz.northsky.shop.service.*;
 import xyz.northsky.shop.utils.ResponseCode;
 import xyz.northsky.shop.utils.ResponseMessage;
+import xyz.northsky.shop.utils.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,17 +50,31 @@ public class OrderController implements AlipayConfig {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = "/success", method = RequestMethod.GET)
-    public String indexOrderSuccess(Model model, HttpServletRequest request) throws Exception {
+    public String indexOrderSuccess(Model model, HttpServletRequest request, HttpSession session) throws Exception {
         String tradeNoStr = request.getParameter("out_trade_no");
-        if (tradeNoStr.charAt(tradeNoStr.length() - 1) == '1') {
-            String tradeNo = tradeNoStr.substring(0, tradeNoStr.length() - 2);
+        String[] strings = tradeNoStr.split("#");
+        if ("1".equals(strings[1])) {
+            String tradeNo = strings[0];
             model.addAttribute("payAmount", request.getParameter("total_amount"));
             model.addAttribute("tradeNo", tradeNo);
             model.addAttribute("flag", "1");
+            orderService.activeOrderByNo(tradeNo);
         } else {
             model.addAttribute("flag", "0");
         }
+
+        String userId = strings[2];
+        if (StringUtil.isNotBlank(userId) && !"null".equals(userId)) {
+            User user = userService.selectUserById(Integer.valueOf(userId));
+            if (user != null) {
+                session.setAttribute("user", user);
+            }
+        }
+
         return "success";
     }
 
@@ -92,8 +105,14 @@ public class OrderController implements AlipayConfig {
         info.setCreateTime(new Date());
         String flag = orderService.insertOrder(info) ? "1" : "0";
 
+        Object userObj = session.getAttribute("user");
+        Integer userId = null;
+        if (userObj instanceof User) {
+            userId = ((User) userObj).getId();
+        }
+
         payRequest.setBizContent("{" +
-                "    \"out_trade_no\":\""+tradeNo+"_"+flag+"\"," +
+                "    \"out_trade_no\":\""+Joiner.on("#").useForNull("null").join(tradeNo, flag, userId) +"\"," +
                 "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
                 "    \"total_amount\":"+info.getTotal_amount()+"," +
                 "    \"subject\":\""+sb.toString()+"\"" +

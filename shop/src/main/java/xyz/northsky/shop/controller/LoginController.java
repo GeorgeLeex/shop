@@ -60,12 +60,7 @@ public class LoginController {
         Optional<User> optionalUser = userService.userIsExist(user);
         ResponseMessage responseMessage = new ResponseMessage();
         if (optionalUser.isPresent()) {
-            // 查询图书类别
-            List<LabelValueBean> labelValueBeanList = syscodeService.selectLabelValueByType("图书类别");
-            session.setAttribute("bookTypes", labelValueBeanList);
-            // 查询出版社
-            List<LabelValueBean> labelValueBeanList1 = syscodeService.selectLabelValueByType("出版社");
-            session.setAttribute("press", labelValueBeanList1);
+
             session.setAttribute("user", optionalUser.get());
             responseMessage.code(ResponseCode.OK);
         } else {
@@ -82,6 +77,7 @@ public class LoginController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logOut(HttpSession session) {
         session.invalidate();
+
         return "login";
     }
 
@@ -97,6 +93,12 @@ public class LoginController {
     public String adminIndex(Model model, HttpSession session){
         List<LabelValueBean> list = syscodeService.selectFirstType();
         session.setAttribute("firstTypes", list);
+        // 查询图书类别
+        List<LabelValueBean> labelValueBeanList = syscodeService.selectLabelValueByType("图书类别");
+        session.setAttribute("bookTypes", labelValueBeanList);
+        // 查询出版社
+        List<LabelValueBean> labelValueBeanList1 = syscodeService.selectLabelValueByType("出版社");
+        session.setAttribute("press", labelValueBeanList1);
         return "admin";
     }
 

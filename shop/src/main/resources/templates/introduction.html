@@ -35,7 +35,7 @@
             <div class="menu-hd" th:if="${session.user != null}">
                 <a th:href="@{/index}">网站首页</a>
             </div>
-            <a style="position:absolute;left:1300px;top: 0;" th:href="@{/logout}">退出</a>
+            <a style="position:absolute;left:82%;top: 0;" th:href="@{/logout}">退出</a>
         </div>
     </ul>
 </div>
@@ -238,6 +238,7 @@
                             <li title="" th:text="${'字数:&nbsp;' + book.word_num}"></li>
                             <li title="" th:text="${'页数:&nbsp;' + book.page_num}"></li>
                             <li title="" th:text="${'出版时间:&nbsp;' + book.publish_time}"></li>
+                            <li th:text="${'出版社:&nbsp;' + book.pressName}"></li>
                         </ul>
                         <div class="clear"></div>
                     </div>
@@ -284,8 +285,8 @@
 <div class="navCir">
     <li class="active"><a th:href="@{/index}"><i class="am-icon-home "></i>首页</a></li>
     <li><a href="javascript:;"><i class="am-icon-list"></i>分类</a></li>
-    <li><a th:href="@{/cart/{id}(id=${session.user.id})}"><i class="am-icon-shopping-basket"></i>购物车</a></li>
-    <li><a th:href="@{session.user != null ? '/user/'+${session.user.id} : 'javascript:;'}"><i class="am-icon-user"></i>我的</a></li>
+    <li><a th:href="@{{val}(val=${session.user != null ? '/cart/'+session.user.id : 'javascript:;'})}"><i class="am-icon-shopping-basket"></i>购物车</a></li>
+    <li><a th:href="@{{val}(val=${session.user != null ? '/user/'+session.user.id : 'javascript:;'})}"><i class="am-icon-user"></i>我的</a></li>
 </div>
 
 <!--菜单 -->
@@ -298,7 +299,7 @@
                 </a>
                 <div class="ibar_login_box status_login ">
                     <div class="avatar_box ">
-                        <p class="avatar_imgbox "><img th:src="@{/images/{imgId}(imgId=${session.user.img == null ? 'no-img_mid_.jpg' : session.user.img})}"/></p>
+                        <p class="avatar_imgbox "><img width="100%" th:src="@{/images/{imgId}(imgId=${session.user.img == null ? 'no-img_mid_.jpg' : session.user.img})}"/></p>
                         <ul class="user_info ">
                             <li th:if="${session.user != null}" th:text="${session.user.nickName}"></li>
                         </ul>
