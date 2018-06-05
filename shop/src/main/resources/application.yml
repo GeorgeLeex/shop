@@ -1,0 +1,56 @@
+spring:
+
+  profiles:
+    active: pro
+
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/shop?useUnicode=true&characterEncoding=utf8
+      username: root
+      password: root
+      initial-size: 1
+      max-active: 20
+      max-wait: 20000
+      min-idle: 1
+      filters: stat,wall,log4j
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      stat-view-servlet:
+        enabled: true
+        allow: 127.0.0.1
+        reset-enable: false
+        url-pattern: /druid/*
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.css,*.jpg,*.png,*.gif,*.ico,/druid/*"
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+  resources:
+    static-locations: classpath:/META-INF/resources/, classpath:/resources/, classpath:/static/, file:${img.access-location}
+
+  mvc:
+    favicon:
+      enabled: false
+
+
+server:
+  port: 8080
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: xyz.northsky.shop.entity
+  configuration:
+    call-setters-on-nulls: true
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countsql
+
+

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="stylesheet" th:href="@{/AmazeUI-2.4.2/assets/css/amazeui.min.css}"/>
+    <link th:href="@{/css/dlstyle.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="login-boxtitle">
+</div>
+
+<div class="login-banner">
+    <div class="login-main">
+        <div class="login-banner-bg"><span></span><img th:src="@{/images/big.jpg}"/></div>
+        <div class="login-box">
+
+            <h3 class="title">登录商城</h3>
+
+            <div class="clear"></div>
+
+            <div class="login-form">
+                <form>
+                    <div class="user-name">
+                        <label for="user"><i class="am-icon-user"></i></label>
+                        <input type="text" name="nickName" id="user" placeholder="用户名">
+                    </div>
+                    <div class="user-pass">
+                        <label for="password"><i class="am-icon-lock"></i></label>
+                        <input type="password" name="password" id="password" placeholder="请输入密码">
+                    </div>
+                </form>
+            </div>
+            <div id="msg" style="color: red;margin: 0 auto;visibility: hidden"></div>
+            <div class="login-links" style="margin-top: 5px; margin-bottom: 5px;">
+                <!--<a href="#" class="am-fr">忘记密码</a>-->
+                <a th:href="@{/register}" class="zcnext am-fr am-btn-default">注册</a>
+                <br/>
+            </div>
+            <div class="am-cf">
+                <input id="loginBtn" type="button" name="" onclick="login()" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer ">
+    <div class="footer-hd ">
+        <p>
+            <a href="# ">商城首页</a>
+            <b>|</b>
+            <a href="https://www.alipay.com" target="_blank">支付宝</a>
+        </p>
+    </div>
+    <div class="footer-bd ">
+        <p>
+            <a href="javascript:;" >合作伙伴</a>
+            <a href="javascript:;" >联系我们</a>
+            <a href="javascript:;" >网站地图</a>
+        </p>
+    </div>
+</div>
+</body>
+<script th:src="@{/js/jquery-1.7.2.min.js}"></script>
+<script>
+
+    $(function () {
+        hiddeMsg("user");
+        hiddeMsg("password");
+    });
+
+    function hiddeMsg(id) {
+        $("#" + id).focus(function () {
+            $("#msg").css("visibility", "hidden");
+        });
+    }
+
+    function showMsg(id, msg) {
+        $("#" + id).text(msg);
+        $("#" + id).css("visibility", "visible");
+    }
+
+    function changeBorderColor(id) {
+        $("#" + id).css("border-color", "red");
+        $("#" + id).blur(function () {
+            $("#" + id).css("border-color", "");
+        });
+    }
+
+    function login(){
+        var nickName = $("#user").val();
+        var password = $("#password").val();
+        if (isNull(nickName)) {
+            changeBorderColor("user");
+            showMsg("msg", "用户名不能为空");
+            return false;
+        } else if (isNull(password)) {
+            changeBorderColor("password");
+            showMsg("msg", "密码不能为空");
+            return false;
+        } else if (!(new RegExp("\\w{6,18}").test(password))) {
+            changeBorderColor("password");
+            showMsg("msg", "密码长度必须大于6位且小于18位");
+            return false;
+        } else {
+            $.ajax("/login", {
+                type : "POST",
+                data : {nickName : nickName, password : password},
+                success : function (data) {
+                    if (data.responseCode == "OK") {
+                        location.href = "/index";
+                    } else {
+                        showMsg("msg", "用户名或密码错误!");
+                    }
+                },
+                error : function () {
+                    alert("网络故障!");
+                }
+            });
+        }
+    }
+
+
+
+
+    function isNull(obj) {
+        return obj == null || obj == '' || obj == undefined;
+    }
+</script>
+<script>
+    document.onkeydown = function (event) {
+        var e = event || window.event;
+        if (e && e.keyCode == 13) { //回车键的键值为13
+            $("#loginBtn").click(); //调用登录按钮的登录事件
+        }
+    };
+</script>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dream</title>
+    <!-- Bootstrap Styles-->
+    <link th:href="@{/assets/css/bootstrap.css}" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link th:href="@{/assets/css/font-awesome.css}" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link th:href="@{/assets/js/morris/morris-0.4.3.min.css}" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link th:href="@{/assets/css/custom-styles.css}" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link th:href='@{https://fonts.googleapis.com/css?family=Open+Sans}' rel='stylesheet' type='text/css' />
+</head>
+
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default top-navbar" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:;">SHOP</a>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right">
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+    </nav>
+    <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+            </ul>
+
+        </div>
+
+    </nav>
+
+    <div id="page-wrapper" >
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">
+                        <small>修改图书</small>
+                    </h1>
+                </div>
+            </div>
+            <!-- /. ROW  -->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+
+            <!-- /. ROW  -->
+        </div>
+    </div>
+
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script th:src="@{/js/jquery-1.7.2.min.js}"></script>
+<!-- Bootstrap Js -->
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<!-- Metis Menu Js -->
+<script th:src="@{/assets/js/jquery.metisMenu.js}"></script>
+<!-- Custom Js -->
+<script th:src="@{/assets/js/custom-scripts.js}"></script>
+<script>
+    var menus = sessionStorage.getItem("menus");
+    if (menus) {
+        $.each(JSON.parse(menus), function (i, item) {
+            $("<li></li>").append($("<a></a>").attr('href', item.uri).append($("<i></i>").attr('class', item.className)).append(item.name)).appendTo("#main-menu");
+        })
+    } else {
+        $.ajax({
+            url : "/menus",
+            success : function (json) {
+                $.each(json.data, function (i, item) {
+                    $("<li></li>").append($("<a></a>").attr('href', item.uri).append($("<i></i>").attr('class', item.className)).append(item.name)).appendTo("#main-menu");
+                })
+                sessionStorage.setItem("menus", JSON.stringify(json.data));
+            }
+        });
+    }
+</script>
+</body>
+
+</html>

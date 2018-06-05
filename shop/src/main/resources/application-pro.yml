@@ -1,0 +1,7 @@
+spring:
+  thymeleaf:
+    cache: true
+
+img:
+  upload-location : /home/lee/uploaded_files/images
+  access-location : /home/lee/uploaded_files

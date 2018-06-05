@@ -1,0 +1,11 @@
+spring:
+  thymeleaf:
+    cache: false
+
+img:
+  upload-location : D:/uploaded_files/images
+  access-location : D:/uploaded_files
+
+#  rabbitmq:
+#    virtual-host: /
+#    publisher-confirms: true
